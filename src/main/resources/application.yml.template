@@ -1,0 +1,17 @@
+spring:
+  banner:
+    location: banner.txt
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://
+    username:
+    password:
+logging:
+  level:
+    root: off
+    org:
+      springframework:
+        boot: off
+    io:
+      hoogland:
+        guildtools: trace

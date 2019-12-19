@@ -1,0 +1,10 @@
+prefix: '!'
+tokens:
+  discord:
+  owner:
+database:
+  url: jdbc:postgresql://
+  user:
+  password:
+  hbm2ddl: update
+  showsql: false
