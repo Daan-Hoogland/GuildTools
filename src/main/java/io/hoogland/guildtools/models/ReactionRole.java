@@ -17,15 +17,15 @@ public class ReactionRole {
     @JoinColumn(name = "reaction_role_message_id")
     private ReactionRoleMessage reactionRoleMessage;
 
-    private String roleId;
+    private Long roleId;
     private String emojiId;
     private int type;
-    private long creatorId;
+    private Long creatorId;
 
     public ReactionRole() {
     }
 
-    public ReactionRole(String guildId) {
+    public ReactionRole(long guildId) {
         if (null == this.reactionRoleMessage)
             this.reactionRoleMessage = new ReactionRoleMessage(guildId);
     }

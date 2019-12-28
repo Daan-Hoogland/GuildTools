@@ -1,6 +1,6 @@
 package io.hoogland.guildtools.constants;
 
-public class EmbedConstants {
+public class ReactionRoleConstants {
 
     public static final String ADD_REACT_INSUFFICIENT_PERMISSIONS_TITLE = "Reaction Role Setup - Insufficient Permissions";
     public static final String ADD_REACT_TITLE_1 = "Reaction Role Setup - Channel";
@@ -27,13 +27,14 @@ public class EmbedConstants {
     public static final String CANCEL_ERROR = "The command has been cancelled.";
     public static final String CHANNEL = "**Channel**";
     public static final String MESSAGE = "**Message**";
-    public static final String MESSAGE_ERROR = "No message found with that ID.\nError: %s";
+    public static final String MESSAGE_ERROR = "No message found with that ID.\n\nError: %s";
     public static final String EMOJI = "**Emoji**";
     public static final String ROLE = "**Role**";
     public static final String TYPE = "**Type**";
     public static final String ID = "**Rule ID**";
 
     public static final String MENTION_EMOJI = "<:%s:%s>";
+    public static final String MENTION_CHANNEL = "<#%s>";
     public static final String MENTION_ROLE = "<@&%s>";
     public static final String LINK = "[%s](%s)";
 

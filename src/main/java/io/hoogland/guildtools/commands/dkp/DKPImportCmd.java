@@ -1,0 +1,164 @@
+package io.hoogland.guildtools.commands.dkp;
+
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import com.opencsv.CSVReader;
+import com.opencsv.bean.CsvToBeanBuilder;
+import io.hoogland.guildtools.constants.Constants;
+import io.hoogland.guildtools.constants.DKPConstants;
+import io.hoogland.guildtools.models.DKPImport;
+import io.hoogland.guildtools.models.DKPStanding;
+import io.hoogland.guildtools.models.repositories.DKPImportRepository;
+import io.hoogland.guildtools.models.repositories.DKPStandingRepository;
+import io.hoogland.guildtools.utils.AttachmentUtils;
+import io.hoogland.guildtools.utils.BeanUtils;
+import io.hoogland.guildtools.utils.DKPUtils;
+import io.hoogland.guildtools.utils.EmbeddedUtils;
+import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+
+import java.io.StringReader;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+@Slf4j
+public class DKPImportCmd extends Command {
+
+    private EventWaiter waiter;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private DKPImportRepository dkpImportRepository = BeanUtils.getBean(DKPImportRepository.class);
+    private DKPStandingRepository dkpStandingRepository = BeanUtils.getBean(DKPStandingRepository.class);
+
+    public DKPImportCmd(EventWaiter waiter) {
+        this.name = "import";
+        this.help = "links the users Discord account to their in-game character.";
+        this.waiter = waiter;
+//        this.cooldown = 60;
+    }
+
+    @Override
+    protected void execute(CommandEvent event) {
+        if (!event.getAuthor().isBot() && event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+            StringBuilder builder = new StringBuilder();
+            if (event.getMessage().getAttachments().isEmpty()) {
+                log.debug("NYI accept csv in message.");
+
+                event.getMessage().delete().queue();
+                waitForCsv(event);
+            } else {
+                builder = AttachmentUtils.getAttachmentContent(event);
+
+                List<DKPStanding> importedStandings;
+                try {
+                    CSVReader reader = new CSVReader(new StringReader(builder.toString()));
+
+                    importedStandings = new CsvToBeanBuilder(reader)
+                            .withType(DKPStanding.class).build().parse();
+                } catch (Exception e) {
+                    event.getChannel().sendMessage(EmbeddedUtils.buildErrorEmbed(DKPConstants.DKP_ERROR_FILE_TITLE,
+                            DKPConstants.DKP_ERROR_FILE_DESCRIPTION,
+                            e.getMessage(), null)).queue(
+                            success -> {
+                                success.delete().queueAfter(20, TimeUnit.SECONDS);
+                                event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
+                            }
+                    );
+                    return;
+                }
+
+                log.debug(String.valueOf(importedStandings.size()));
+
+                if (DKPUtils.getDuplicates(importedStandings).size() > 0 && !importedStandings.isEmpty()) {
+                    event.getChannel().sendMessage(EmbeddedUtils
+                            .buildErrorEmbed(DKPConstants.DKP_IMPORT_DUPLICATES_TITLE, DKPConstants.DKP_IMPORT_DUPLICATES_DESCRIPTION,
+                                    "Duplicate entries found.", null)).queue(
+                            success -> {
+                                success.delete().queueAfter(20, TimeUnit.SECONDS);
+                                event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
+                            }
+                    );
+                    return;
+                } else if (importedStandings.isEmpty()) {
+                    log.debug("importedStandings empty, bad");
+                    event.getChannel().sendMessage(EmbeddedUtils
+                            .buildErrorEmbed(DKPConstants.DKP_IMPORT_ERROR_TITLE, DKPConstants.DKP_IMPORT_ERROR_DESCRIPTION, "Missing CSV data",
+                                    null))
+                            .queue(success -> {
+                                success.delete().queueAfter(20, TimeUnit.SECONDS);
+                                event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
+                            });
+                    return;
+                }
+
+                saveImportedStandings(importedStandings, event.getGuild().getIdLong());
+
+                DKPImport dkpImport = new DKPImport();
+                dkpImport.setUploader(event.getAuthor().getIdLong());
+                dkpImport.setGuildId(event.getGuild().getIdLong());
+                dkpImport.setImportedText(builder.toString());
+                DKPImport savedImport = dkpImportRepository.saveAndFlush(dkpImport);
+
+
+                List<MessageEmbed.Field> fields = new ArrayList<>() {{
+                    add(new MessageEmbed.Field("Latest update", savedImport.getModifiedDate().format(formatter), true));
+                    add(new MessageEmbed.Field("Author", String.format(Constants.MENTION_USER, savedImport.getUploader()), true));
+                }};
+                event.getChannel().sendMessage(EmbeddedUtils
+                        .buildGenericEmbed(DKPConstants.DKP_IMPORT_TITLE, DKPConstants.DKP_IMPORT_DESCRIPTION, fields, null, "64a266")).queue(
+                        success -> {
+                            success.delete().queueAfter(20, TimeUnit.SECONDS);
+                            event.getMessage().addReaction("✅").queueAfter(20, TimeUnit.SECONDS);
+                        }
+                );
+            }
+        }
+    }
+
+    private void waitForCsv(CommandEvent event) {
+        //todo message asking for csv text or file
+
+        waiter.waitForEvent(GuildMessageReceivedEvent.class,
+                e -> e.getAuthor().equals(event.getAuthor()) && e.getChannel().equals(event.getChannel()),
+                e -> {
+                    if (e.getMessage().getAttachments().isEmpty()) {
+                        log.debug(e.getMessage().getContentRaw());
+                    } else {
+                        StringBuilder builder = AttachmentUtils.getAttachmentContent(e);
+                    }
+                }, 2, TimeUnit.MINUTES, () -> {
+                    event.getMessage().getChannel().sendMessage("Sorry, you took too long.").queue();
+                });
+    }
+
+    private void saveImportedStandings(List<DKPStanding> importedStandings, long guildId) {
+        importedStandings.forEach(importedStanding -> {
+            Optional<DKPStanding> optionalDKPStanding = dkpStandingRepository
+                    .findByPlayerAndGuildId(importedStanding.getPlayer().toUpperCase(), guildId);
+            if (optionalDKPStanding.isPresent()) {
+                DKPStanding newDkpStanding = optionalDKPStanding.get();
+                newDkpStanding.setPlayer(importedStanding.getPlayer().toUpperCase());
+                newDkpStanding.setClazz(importedStanding.getClazz());
+                newDkpStanding.setDkp(importedStanding.getDkp());
+                newDkpStanding.setGuildId(importedStanding.getGuildId());
+                newDkpStanding.setPrevious(importedStanding.getPrevious());
+                newDkpStanding.setDkpChange(importedStanding.getDkp() - importedStanding.getPrevious());
+                newDkpStanding.setLifetimeGained(importedStanding.getLifetimeGained());
+                newDkpStanding.setLifetimeSpent(importedStanding.getLifetimeSpent());
+                newDkpStanding.setGuildId(importedStanding.getGuildId());
+                dkpStandingRepository.saveAndFlush(newDkpStanding);
+            } else {
+                importedStanding.setPlayer(importedStanding.getPlayer().toUpperCase());
+                importedStanding.setDkpChange(importedStanding.getDkp() - importedStanding.getPrevious());
+                importedStanding.setGuildId(guildId);
+                dkpStandingRepository.saveAndFlush(importedStanding);
+            }
+            log.debug(importedStanding.toString());
+        });
+    }
+}

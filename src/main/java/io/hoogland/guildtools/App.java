@@ -3,11 +3,14 @@ package io.hoogland.guildtools;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.hoogland.guildtools.commands.RoleReactionCmd;
-import io.hoogland.guildtools.commands.RoleReactionListener;
-import io.hoogland.guildtools.commands.ShutdownCmd;
+import io.hoogland.guildtools.commands.*;
+import io.hoogland.guildtools.commands.dkp.DKPAllReactionListener;
+import io.hoogland.guildtools.commands.dkp.DKPCmd;
+import io.hoogland.guildtools.commands.rolereaction.RoleReactionCmd;
+import io.hoogland.guildtools.commands.rolereaction.RoleReactionListener;
 import io.hoogland.guildtools.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import org.springframework.boot.CommandLineRunner;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 public class App implements CommandLineRunner {
 
     public static final EventWaiter waiter = new EventWaiter();
+    public static JDA jda;
 
     public static void main(String[] args) {
         ConfigUtils.loadConfiguration();
@@ -41,13 +45,15 @@ public class App implements CommandLineRunner {
         //todo change to prefix from yaml
         builder.setActivity(Activity.listening("!help"));
         builder.addCommands(new RoleReactionCmd(waiter));
+        builder.addCommands(new DKPCmd(waiter));
         builder.addCommands(new ShutdownCmd());
 
         CommandClient client = builder.build();
 
-        new JDABuilder(configTokens.get("discord").toString())
+        jda = new JDABuilder(configTokens.get("discord").toString())
                 .addEventListeners(client)
                 .addEventListeners(new RoleReactionListener())
+                .addEventListeners(new DKPAllReactionListener())
                 .addEventListeners(waiter)
                 .build();
     }

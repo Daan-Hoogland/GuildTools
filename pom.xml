@@ -45,6 +45,8 @@
         <snakeyaml-version>1.25</snakeyaml-version>
         <lombok-version>1.18.10</lombok-version>
         <emoji-version>5.1.1</emoji-version>
+        <jackson-csv-version>2.9.9</jackson-csv-version>
+        <opencsv-version>5.0</opencsv-version>
     </properties>
 
     <dependencies>
@@ -52,8 +54,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
 
         <dependency>
             <groupId>net.dv8tion</groupId>
@@ -91,6 +91,20 @@
             <artifactId>emoji-java</artifactId>
             <version>${emoji-version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>${opencsv-version}</version>
+        </dependency>
+
+
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.dataformat</groupId>-->
+<!--            <artifactId>jackson-dataformat-csv</artifactId>-->
+<!--            <version>${jackson-csv-version}</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 

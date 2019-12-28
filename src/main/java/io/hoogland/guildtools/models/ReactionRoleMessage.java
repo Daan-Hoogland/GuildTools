@@ -13,8 +13,9 @@ public class ReactionRoleMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String guildId, messageId, directLink, channelId;
+    private Long id;
+    private Long guildId, messageId, channelId;
+    private String directLink;
 
     @OneToMany(mappedBy = "reactionRoleMessage", fetch = FetchType.EAGER)
     private List<ReactionRole> roles;
@@ -22,12 +23,8 @@ public class ReactionRoleMessage {
     public ReactionRoleMessage() {
     }
 
-    public ReactionRoleMessage(String guildId) {
+    public ReactionRoleMessage(long guildId) {
         this.guildId = guildId;
         this.roles = new ArrayList<>();
-    }
-
-    public String getChannelIdSanitized() {
-        return this.channelId.substring(2, this.channelId.length() - 1);
     }
 }
