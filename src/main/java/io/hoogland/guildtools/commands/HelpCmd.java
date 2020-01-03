@@ -16,6 +16,8 @@ public class HelpCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-
+        event.getJDA().getEventManager().getRegisteredListeners().forEach(obj -> {
+            log.debug(obj.getClass().getName());
+        });
     }
 }

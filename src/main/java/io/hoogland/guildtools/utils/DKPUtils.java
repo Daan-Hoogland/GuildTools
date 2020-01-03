@@ -1,5 +1,7 @@
 package io.hoogland.guildtools.utils;
 
+import io.hoogland.guildtools.constants.Constants;
+import io.hoogland.guildtools.constants.DKPConstants;
 import io.hoogland.guildtools.constants.EmojiConstants;
 import io.hoogland.guildtools.models.DKPImport;
 import io.hoogland.guildtools.models.DKPStanding;
@@ -10,10 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -38,6 +37,58 @@ public class DKPUtils {
         return (Long.signum(dkpChange) < 0) ? EmojiConstants.EMOJI_DOWN : EmojiConstants.EMOJI_UP;
     }
 
+    public static List<MessageEmbed.Field> getStandingFields(DKPStanding standing) {
+        List<MessageEmbed.Field> fields = new ArrayList<>();
+
+        fields.add(new MessageEmbed.Field(DKPConstants.DKP_CURRENT_TITLE,
+                String.format(DKPConstants.DKP_CURRENT_VALUE, standing.getDkp(), getDkpChangeEmoji(standing.getDkpChange()), standing.getDkpChange()),
+                false));
+        fields.add(new MessageEmbed.Field(DKPConstants.DKP_PREVIOUS, String.valueOf(standing.getPrevious()), false));
+        fields.add(new MessageEmbed.Field(DKPConstants.DKP_LIFETIME_GAINED, String.valueOf(standing.getLifetimeGained()), true));
+        fields.add(new MessageEmbed.Field(DKPConstants.DKP_LIFETIME_SPENT, String.valueOf(standing.getLifetimeSpent()), true));
+
+        return fields;
+    }
+
+    public static List<MessageEmbed.Field> getStandingFields(Page<DKPStanding> guildStanding, int page) {
+        List<MessageEmbed.Field> fields = new ArrayList<>();
+        StringBuilder nameRanking = new StringBuilder();
+        StringBuilder dkp = new StringBuilder();
+        int ranking = page * 20 + 1;
+        for (DKPStanding standing : guildStanding) {
+            nameRanking.append(ranking).append(". ").append(StringUtils.capitalize(standing.getPlayer().toLowerCase()))
+                    .append("<:empty:660151903753076751>").append("\n");
+            dkp.append(standing.getDkp()).append("\t(").append(DKPUtils.getDkpChangeEmoji(standing.getDkpChange())).append(standing.getDkpChange())
+                    .append(")")
+                    .append("\n");
+            ranking = ranking + 1;
+        }
+        fields.add(new MessageEmbed.Field("Player", nameRanking.toString(), true));
+        fields.add(new MessageEmbed.Field("DKP (change)", dkp.toString(), true));
+
+        return fields;
+    }
+
+    public static MessageEmbed createDkpEmbed(DKPStanding standing) {
+        HashMap classInfo = (HashMap) ((HashMap) ConfigUtils.getConfig().get("icons")).get(standing.getClazz().toLowerCase());
+        return EmbedUtils
+                .createEmbed(DKPConstants.DKP_EMBED_TITLE, String.format(DKPConstants.DKP_EMBED_DESCRIPTION, StringUtils
+                                .capitalize(standing.getPlayer().toLowerCase())), DKPUtils.getStandingFields(standing),
+                        classInfo.get("color").toString(), String.format(DKPConstants.DKP_FOOTER, standing.getModifiedDate().format(
+                                Constants.DATE_TIME_FORMATTER)), null, classInfo.get("icon").toString());
+    }
+
+    public static String getFooter(Optional<DKPImport> dkpImport, Page<DKPStanding> guildStanding, int page) {
+        if (guildStanding.getTotalPages() > 1) {
+            return "Page " + (page + 1) + "/" + guildStanding.getTotalPages() +
+                    "\nTo see the next page, react with the arrow emojis. | Last updated: " + dkpImport.get().getCreatedDate().format(formatter);
+        } else if (dkpImport.isPresent()) {
+            return "Last updated: " + dkpImport.get().getCreatedDate().format(formatter);
+        } else {
+            return "Unknown update time";
+        }
+    }
+
     public static MessageEmbed getDKPAllEmbed(String messageTitle, Optional<DKPImport> dkpImport, Page<DKPStanding> guildStanding, int page) {
         EmbedBuilder embed = new EmbedBuilder();
 
@@ -45,7 +96,8 @@ public class DKPUtils {
         embed.setThumbnail("https://i.imgur.com/5gzgA0B.png");
         if (guildStanding.getTotalPages() > 1) {
             embed.setFooter("Page " + (page + 1) + "/" + guildStanding.getTotalPages() +
-                    "\nTo see the next page, react with the arrow emojis. | Last updated: " + dkpImport.get().getCreatedDate().format(formatter), "https://i.imgur.com/pZf0MvC.png");
+                            "\nTo see the next page, react with the arrow emojis. | Last updated: " + dkpImport.get().getCreatedDate().format(formatter),
+                    "https://i.imgur.com/pZf0MvC.png");
         } else if (dkpImport.isPresent()) {
             embed.setFooter("Last updated: " + dkpImport.get().getCreatedDate().format(formatter), "https://i.imgur.com/pZf0MvC.png");
         } else {

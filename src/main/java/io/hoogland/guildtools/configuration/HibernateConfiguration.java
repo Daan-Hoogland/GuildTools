@@ -1,6 +1,7 @@
 package io.hoogland.guildtools.configuration;
 
 import io.hoogland.guildtools.utils.ConfigUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,54 +25,52 @@ import java.util.Properties;
 @ComponentScan({"io.hoogland.guildtools.models"})
 public class HibernateConfiguration {
 
-    private static final String DRIVER = "org.postgresql.Driver";
+    @Value("${spring.datasource.driver-class-name}")
+    private String driver;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.showsql}")
+    private String showsql;
+    @Value("${spring.datasource.hbm2ddl}")
+    private String hbm2ddl;
+
     private static final String DIALECT = "org.hibernate.dialect.PostgreSQL92Dialect";
     private static final boolean FORMAT_SQL = true;
 
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//        HashMap config = (HashMap) ConfigUtils.getConfig().get("database");
-//
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//        sessionFactory.setDataSource(dataSource(config));
-//        sessionFactory.setPackagesToScan("io.hoogland.guildtools.model");
-//        sessionFactory.setHibernateProperties(hibernateProperties(config));
-//
-//        return sessionFactory;
-//    }
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        HashMap config = (HashMap) ConfigUtils.getConfig().get("database");
-
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource(config));
+        em.setDataSource(dataSource());
         em.setPackagesToScan(new String[]{"io.hoogland.guildtools.models"});
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(hibernateProperties(config));
+        em.setJpaProperties(hibernateProperties());
 
         return em;
     }
 
 
-    public DataSource dataSource(HashMap<String, String> databaseConfig) {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(DRIVER);
-        dataSource.setUrl(databaseConfig.get("url"));
-        dataSource.setUsername(databaseConfig.get("user"));
-        dataSource.setPassword(databaseConfig.get("password"));
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
-    private Properties hibernateProperties(HashMap<String, String> databaseConfig) {
+    private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", DIALECT);
-        properties.put("hibernate.show_sql", databaseConfig.get("showsql"));
+        properties.put("hibernate.show_sql", showsql);
         properties.put("hibernate.format_sql", FORMAT_SQL);
-        properties.put("hibernate.hbm2ddl.auto", databaseConfig.get("hbm2ddl"));
+        properties.put("hibernate.hbm2ddl.auto", hbm2ddl);
         return properties;
     }
 

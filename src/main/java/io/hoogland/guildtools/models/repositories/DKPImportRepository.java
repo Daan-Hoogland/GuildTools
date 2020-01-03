@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface DKPImportRepository extends JpaRepository<DKPImport, Long> {
     @Transactional
     Optional<DKPImport> findTopByGuildIdOrderByCreatedDateDesc(long guildId);
+
+    @Transactional
+    void deleteAllByGuildId(long guildId);
 }

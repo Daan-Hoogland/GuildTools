@@ -1,24 +1,29 @@
 package io.hoogland.guildtools.models;
 
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.*;
 
 @Data
-public class Character {
+@Entity
+@Table(name = "character", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "guildId"})})
+public class Character extends AuditedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private String name, userId;
-
+    private String name;
     @Column(name = "class")
     private String clazz;
+    private long userId;
+    private long guildId;
 
-    @OneToOne
-    @JoinColumn(name = "dkp_standing_id")
-    private DKPStanding dkpStanding;
+    public Character() {
+    }
 
+    public Character(String name, long userId, long guildId) {
+        this.name = name;
+        this.userId = userId;
+        this.guildId = guildId;
+    }
 }

@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sun.istack.NotNull;
 import com.vdurmont.emoji.EmojiParser;
+import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.constants.ReactionRoleConstants;
 import io.hoogland.guildtools.models.ReactionRole;
 import io.hoogland.guildtools.models.ReactionRoleMessage;
@@ -22,7 +23,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -34,8 +34,6 @@ public class RoleReactionCmd extends Command {
     private ReactionRoleMessageRepository reactionRoleMessageRepository = BeanUtils.getBean(ReactionRoleMessageRepository.class);
 
     private EventWaiter waiter;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
 
     public RoleReactionCmd(EventWaiter waiter) {
         this.name = "addreaction";
@@ -74,7 +72,7 @@ public class RoleReactionCmd extends Command {
 
     private void cancelCommand(@NotNull Message userMessage, @NotNull Message embeddedMessage) {
         MessageEmbed embed = EmbeddedUtils.buildReactionRoleEmbed(ReactionRoleConstants.ADD_REACT_TITLE_CANCEL,
-                null, null, ReactionRoleConstants.CANCEL_ERROR, "Cancelled at " + LocalDateTime.now().format(formatter));
+                null, null, ReactionRoleConstants.CANCEL_ERROR, "Cancelled at " + LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER_PRECISE));
         embeddedMessage.editMessage(embed).queue();
         userMessage.delete().queue();
     }
@@ -310,7 +308,7 @@ public class RoleReactionCmd extends Command {
                             //todo replace localtime.now with localdate from repo
                             MessageEmbed embed = EmbeddedUtils.buildReactionRoleEmbed(ReactionRoleConstants.ADD_REACT_TITLE_SUMMARY,
                                     ReactionRoleConstants.ADD_REACT_DESCRIPTION_SUMMARY, role, null,
-                                    "Reaction role created at " + LocalDateTime.now().format(formatter));
+                                    "Reaction role created at " + LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER_PRECISE));
                             message.editMessage(embed).queue();
                             e.getMessage().delete().queue();
 

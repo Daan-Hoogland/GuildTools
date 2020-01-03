@@ -1,8 +1,10 @@
 package io.hoogland.guildtools.utils;
 
+import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.constants.DKPConstants;
 import io.hoogland.guildtools.constants.EmojiConstants;
 import io.hoogland.guildtools.constants.ReactionRoleConstants;
+import io.hoogland.guildtools.models.Character;
 import io.hoogland.guildtools.models.DKPStanding;
 import io.hoogland.guildtools.models.ReactionRole;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -128,5 +131,70 @@ public class EmbeddedUtils {
         embedBuilder.setFooter(String.format(DKPConstants.DKP_FOOTER, dkpStanding.getModifiedDate().format(formatter)));
 
         return embedBuilder.build();
+    }
+
+    public static MessageEmbed buildLinkMessageEmbed(boolean linked, List<String> errors, List<String> confirmed) {
+        EmbedBuilder embed = new EmbedBuilder();
+        String titleLinked = "Character linking";
+        String titleUnlinked = "Character unlinking";
+
+        String descriptionLinked = "Below you can find the character names successfully linked, and the ones that failed.\n" +
+                "The failed ones most likely failed because that character is already linked with someone else. " +
+                "Use `!whois <name>` to find out who the character is currently linked to.";
+        String descriptionUnlinked = "Below you can find the character names successfully unlinked, and the ones that failed.\n" +
+                "The failed ones most likely failed because that character is already linked with someone else, or it was never linked to you to begin with. " +
+                "Use `!whois <name>` to find out who the character is currently linked to.";
+
+        embed.setTitle(linked ? titleLinked : titleUnlinked);
+        embed.setDescription(linked ? descriptionLinked : descriptionUnlinked);
+
+        embed.addField(linked ? "✅ Linked" : "✅ Unlinked", confirmed.isEmpty() ? "*None*" : String.join(", ", confirmed), false);
+        embed.addField(linked ? "⚠ Not linked" : "⚠ Not unlinked", errors.isEmpty() ? "*None*" : String.join(", ", errors), false);
+
+
+        return embed.build();
+    }
+
+
+    public static MessageEmbed buildLinkedCharacterUserEmbed(String userName, long userId, List<Character> allCharacters,
+                                                             DateTimeFormatter formatter) {
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.setTitle(String.format("Who is @%s?", userName));
+        builder.setDescription(
+                "Below the characters linked to " + String.format(Constants.MENTION_USER, userId) + " can be found.");
+
+        getCharacterFields(allCharacters, formatter).forEach(builder::addField);
+
+
+        return builder.build();
+    }
+
+    public static MessageEmbed buildLinkedUserCharacterEmbed(String playerName, long userId, List<Character> allCharacters,
+                                                             DateTimeFormatter formatter) {
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.setTitle(String.format("Who is %s?", playerName));
+        builder.setDescription(String.format("The user linked to %s is %s\n\nOther characters linked to %s", playerName,
+                String.format(Constants.MENTION_USER, userId), String.format(Constants.MENTION_USER, userId)));
+
+        getCharacterFields(allCharacters, formatter).forEach(builder::addField);
+
+        return builder.build();
+    }
+
+    public static List<MessageEmbed.Field> getCharacterFields(List<Character> allCharacters, DateTimeFormatter formatter) {
+        List<MessageEmbed.Field> fields = new ArrayList<>();
+        if (allCharacters.isEmpty()) {
+            fields.add(new MessageEmbed.Field("⚠ No characters linked", "", false));
+        } else {
+            allCharacters.forEach(character -> {
+                String emoji = EmojiUtils.getEmojiForClass(character.getClazz());
+
+                fields.add(new MessageEmbed.Field(
+                        String.format("%s %s", emoji != null ? emoji : "", StringUtils.capitalize(character.getName().toLowerCase())),
+                        String.format("Linked since: %s", character.getCreatedDate().format(formatter)), false));
+            });
+        }
+
+        return fields;
     }
 }

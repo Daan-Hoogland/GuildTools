@@ -15,4 +15,13 @@ public class RoleUtils {
         }
         return canInteract;
     }
+
+    public static boolean hasRoleWithId(Long roleId, List<Role> roles) {
+        for (Role role : roles) {
+            if (role.getIdLong() == roleId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

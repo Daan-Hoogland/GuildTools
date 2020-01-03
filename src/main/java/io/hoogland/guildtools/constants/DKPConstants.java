@@ -1,6 +1,11 @@
 package io.hoogland.guildtools.constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DKPConstants {
+
+    public static final String DKP_CLASS_TITLE = "%s | %s";
 
     public static final String DKP_EMBED_TITLE = "DKP standings";
     public static final String DKP_EMBED_DESCRIPTION = "DKP standings for %s";
@@ -27,5 +32,19 @@ public class DKPConstants {
 
     public static final String DKP_IMPORT_DUPLICATES_TITLE = "Duplicate entries found";
     public static final String DKP_IMPORT_DUPLICATES_DESCRIPTION = "There were duplicate DKP entries found in the CSV file uploaded. Please export the DKP standings again and remove the duplicate entries.";
+
+    public static final List<String> CLASSES = new ArrayList<>() {
+        {
+            add("DRUID");
+            add("HUNTER");
+            add("MAGE");
+            add("PALADIN");
+            add("PRIEST");
+            add("ROGUE");
+            add("SHAMAN");
+            add("WARLOCK");
+            add("WARRIOR");
+        }
+    };
 
 }

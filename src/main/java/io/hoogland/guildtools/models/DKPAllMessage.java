@@ -1,6 +1,5 @@
 package io.hoogland.guildtools.models;
 
-import com.jagrosh.jdautilities.command.CommandEvent;
 import lombok.Data;
 import net.dv8tion.jda.api.entities.Message;
 

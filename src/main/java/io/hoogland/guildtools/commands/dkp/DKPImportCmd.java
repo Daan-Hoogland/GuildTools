@@ -9,19 +9,16 @@ import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.constants.DKPConstants;
 import io.hoogland.guildtools.models.DKPImport;
 import io.hoogland.guildtools.models.DKPStanding;
+import io.hoogland.guildtools.models.GuildSettings;
 import io.hoogland.guildtools.models.repositories.DKPImportRepository;
 import io.hoogland.guildtools.models.repositories.DKPStandingRepository;
-import io.hoogland.guildtools.utils.AttachmentUtils;
-import io.hoogland.guildtools.utils.BeanUtils;
-import io.hoogland.guildtools.utils.DKPUtils;
-import io.hoogland.guildtools.utils.EmbeddedUtils;
+import io.hoogland.guildtools.models.repositories.GuildSettingsRepository;
+import io.hoogland.guildtools.utils.*;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.StringReader;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,91 +28,101 @@ import java.util.concurrent.TimeUnit;
 public class DKPImportCmd extends Command {
 
     private EventWaiter waiter;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private DKPImportRepository dkpImportRepository = BeanUtils.getBean(DKPImportRepository.class);
     private DKPStandingRepository dkpStandingRepository = BeanUtils.getBean(DKPStandingRepository.class);
+    private GuildSettingsRepository guildSettingsRepository = BeanUtils.getBean(GuildSettingsRepository.class);
 
     public DKPImportCmd(EventWaiter waiter) {
         this.name = "import";
         this.help = "links the users Discord account to their in-game character.";
         this.waiter = waiter;
-//        this.cooldown = 60;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        if (!event.getAuthor().isBot() && event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
-            StringBuilder builder = new StringBuilder();
-            if (event.getMessage().getAttachments().isEmpty()) {
-                log.debug("NYI accept csv in message.");
+        if (!event.getAuthor().isBot()) {
+            Optional<GuildSettings> optionalSettings = guildSettingsRepository.findByGuildId(event.getGuild().getIdLong());
+            if (optionalSettings.isPresent()) {
+                if (RoleUtils.hasRoleWithId(optionalSettings.get().getAdminRoleId(), event.getMember().getRoles()) ||
+                        event.getGuild().getOwnerIdLong() == event.getMember().getIdLong()) {
+                    event.getChannel().sendTyping().queue();
+                    StringBuilder builder = new StringBuilder();
+                    if (event.getMessage().getAttachments().isEmpty()) {
+                        log.debug("NYI accept csv in message.");
 
-                event.getMessage().delete().queue();
-                waitForCsv(event);
-            } else {
-                builder = AttachmentUtils.getAttachmentContent(event);
+                        event.getMessage().delete().queue();
+                        waitForCsv(event);
+                    } else {
+                        builder = AttachmentUtils.getAttachmentContent(event);
 
-                List<DKPStanding> importedStandings;
-                try {
-                    CSVReader reader = new CSVReader(new StringReader(builder.toString()));
+                        List<DKPStanding> importedStandings;
+                        try {
+                            CSVReader reader = new CSVReader(new StringReader(builder.toString()));
 
-                    importedStandings = new CsvToBeanBuilder(reader)
-                            .withType(DKPStanding.class).build().parse();
-                } catch (Exception e) {
-                    event.getChannel().sendMessage(EmbeddedUtils.buildErrorEmbed(DKPConstants.DKP_ERROR_FILE_TITLE,
-                            DKPConstants.DKP_ERROR_FILE_DESCRIPTION,
-                            e.getMessage(), null)).queue(
-                            success -> {
-                                success.delete().queueAfter(20, TimeUnit.SECONDS);
-                                event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
-                            }
-                    );
-                    return;
-                }
-
-                log.debug(String.valueOf(importedStandings.size()));
-
-                if (DKPUtils.getDuplicates(importedStandings).size() > 0 && !importedStandings.isEmpty()) {
-                    event.getChannel().sendMessage(EmbeddedUtils
-                            .buildErrorEmbed(DKPConstants.DKP_IMPORT_DUPLICATES_TITLE, DKPConstants.DKP_IMPORT_DUPLICATES_DESCRIPTION,
-                                    "Duplicate entries found.", null)).queue(
-                            success -> {
-                                success.delete().queueAfter(20, TimeUnit.SECONDS);
-                                event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
-                            }
-                    );
-                    return;
-                } else if (importedStandings.isEmpty()) {
-                    log.debug("importedStandings empty, bad");
-                    event.getChannel().sendMessage(EmbeddedUtils
-                            .buildErrorEmbed(DKPConstants.DKP_IMPORT_ERROR_TITLE, DKPConstants.DKP_IMPORT_ERROR_DESCRIPTION, "Missing CSV data",
-                                    null))
-                            .queue(success -> {
-                                success.delete().queueAfter(20, TimeUnit.SECONDS);
-                                event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
-                            });
-                    return;
-                }
-
-                saveImportedStandings(importedStandings, event.getGuild().getIdLong());
-
-                DKPImport dkpImport = new DKPImport();
-                dkpImport.setUploader(event.getAuthor().getIdLong());
-                dkpImport.setGuildId(event.getGuild().getIdLong());
-                dkpImport.setImportedText(builder.toString());
-                DKPImport savedImport = dkpImportRepository.saveAndFlush(dkpImport);
-
-
-                List<MessageEmbed.Field> fields = new ArrayList<>() {{
-                    add(new MessageEmbed.Field("Latest update", savedImport.getModifiedDate().format(formatter), true));
-                    add(new MessageEmbed.Field("Author", String.format(Constants.MENTION_USER, savedImport.getUploader()), true));
-                }};
-                event.getChannel().sendMessage(EmbeddedUtils
-                        .buildGenericEmbed(DKPConstants.DKP_IMPORT_TITLE, DKPConstants.DKP_IMPORT_DESCRIPTION, fields, null, "64a266")).queue(
-                        success -> {
-                            success.delete().queueAfter(20, TimeUnit.SECONDS);
-                            event.getMessage().addReaction("✅").queueAfter(20, TimeUnit.SECONDS);
+                            importedStandings = new CsvToBeanBuilder(reader)
+                                    .withType(DKPStanding.class).build().parse();
+                        } catch (Exception e) {
+                            event.getChannel().sendMessage(EmbeddedUtils.buildErrorEmbed(DKPConstants.DKP_ERROR_FILE_TITLE,
+                                    DKPConstants.DKP_ERROR_FILE_DESCRIPTION,
+                                    e.getMessage(), null)).queue(
+                                    success -> {
+                                        success.delete().queueAfter(20, TimeUnit.SECONDS);
+                                        event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
+                                    }
+                            );
+                            return;
                         }
-                );
+
+                        log.debug(String.valueOf(importedStandings.size()));
+
+                        if (DKPUtils.getDuplicates(importedStandings).size() > 0 && !importedStandings.isEmpty()) {
+                            event.getChannel().sendMessage(EmbeddedUtils
+                                    .buildErrorEmbed(DKPConstants.DKP_IMPORT_DUPLICATES_TITLE, DKPConstants.DKP_IMPORT_DUPLICATES_DESCRIPTION,
+                                            "Duplicate entries found.", null)).queue(
+                                    success -> {
+                                        success.delete().queueAfter(20, TimeUnit.SECONDS);
+                                        event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
+                                    }
+                            );
+                            return;
+                        } else if (importedStandings.isEmpty()) {
+                            log.debug("importedStandings empty, bad");
+                            event.getChannel().sendMessage(EmbeddedUtils
+                                    .buildErrorEmbed(DKPConstants.DKP_IMPORT_ERROR_TITLE, DKPConstants.DKP_IMPORT_ERROR_DESCRIPTION,
+                                            "Missing CSV data",
+                                            null))
+                                    .queue(success -> {
+                                        success.delete().queueAfter(20, TimeUnit.SECONDS);
+                                        event.getMessage().addReaction("❌").queueAfter(20, TimeUnit.SECONDS);
+                                    });
+                            return;
+                        }
+
+                        saveImportedStandings(importedStandings, event.getGuild().getIdLong());
+
+                        DKPImport dkpImport = new DKPImport();
+                        dkpImport.setUploader(event.getAuthor().getIdLong());
+                        dkpImport.setGuildId(event.getGuild().getIdLong());
+                        dkpImport.setImportedText(builder.toString());
+                        DKPImport savedImport = dkpImportRepository.saveAndFlush(dkpImport);
+
+
+                        List<MessageEmbed.Field> fields = new ArrayList<>() {{
+                            add(new MessageEmbed.Field("Latest update", savedImport.getModifiedDate().format(Constants.DATE_TIME_FORMATTER), true));
+                            add(new MessageEmbed.Field("Author", String.format(Constants.MENTION_USER, savedImport.getUploader()), true));
+                        }};
+                        event.getChannel().sendMessage(EmbeddedUtils
+                                .buildGenericEmbed(DKPConstants.DKP_IMPORT_TITLE, DKPConstants.DKP_IMPORT_DESCRIPTION, fields, null, "64a266")).queue(
+                                success -> {
+                                    success.delete().queueAfter(20, TimeUnit.SECONDS);
+                                    event.getMessage().addReaction("✅").queueAfter(20, TimeUnit.SECONDS);
+                                }
+                        );
+                    }
+
+                }
+            } else {
+                MessageEmbed error = EmbedUtils.createErrorEmbed("Invalid settings", "Bot is not configured", "Officer role not set.", "");
             }
         }
     }

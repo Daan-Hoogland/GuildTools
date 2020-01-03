@@ -20,7 +20,6 @@ public class DKPMessageScheduler {
         List<DKPAllMessage> allMessages = dkpAllMessageRepository.findAll();
         allMessages.forEach(message -> {
             if (message.getCreatedDate().isBefore(message.getCreatedDate().minusDays(1))) {
-                //todo delete message
                 App.jda.getGuildById(message.getGuildId()).getTextChannelById(message.getChannelId()).retrieveMessageById(message.getMessageId())
                         .queue(
                                 success -> {
