@@ -18,8 +18,9 @@ public class LinkedCmd extends Command {
 
     public LinkedCmd() {
         this.name = "linked";
+        this.arguments = "[player]";
         this.aliases = new String[]{"linked", "characters"};
-        this.help = "Lists the characters linked to the users Discord account.";
+        this.help = "lists the characters linked to the users Discord account.";
     }
 
     @Override

@@ -3,6 +3,7 @@ package io.hoogland.guildtools;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import io.hoogland.guildtools.commands.HelpCmd;
 import io.hoogland.guildtools.commands.application.ApplyCmd;
 import io.hoogland.guildtools.commands.RulesCmd;
 import io.hoogland.guildtools.commands.ShutdownCmd;
@@ -37,6 +38,7 @@ public class App implements CommandLineRunner {
 
     public static final EventWaiter waiter = new EventWaiter();
     public static JDA jda;
+    public static CommandClient client;
 
     @Value("${prefix}")
     private String prefix;
@@ -54,6 +56,7 @@ public class App implements CommandLineRunner {
     public void run(String... args) throws LoginException {
         CommandClientBuilder builder = new CommandClientBuilder();
 
+        builder.useHelpBuilder(false);
         builder.setPrefix(prefix);
         builder.setOwnerId(ownerId);
         builder.setActivity(Activity.listening(prefix + "help"));
@@ -67,8 +70,9 @@ public class App implements CommandLineRunner {
         builder.addCommands(new ShutdownCmd());
         builder.addCommands(new ApplyCmd());
         builder.addCommands(new RulesCmd());
+        builder.addCommands(new HelpCmd());
 
-        CommandClient client = builder.build();
+        client = builder.build();
 
         jda = new JDABuilder(discordToken)
                 .addEventListeners(client)

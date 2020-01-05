@@ -23,6 +23,7 @@ public class WhoisCmd extends Command {
 
     public WhoisCmd() {
         this.name = "whois";
+        this.arguments = "[@user]";
         this.aliases = new String[]{"whois"};
         this.help = "lists the character names linked to a Discord account or the other way around.";
     }

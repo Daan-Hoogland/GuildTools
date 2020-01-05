@@ -22,7 +22,7 @@ public class SetApplicationCmd extends Command {
 
     public SetApplicationCmd() {
         this.name = "setapplication";
-        this.aliases = new String[]{"setapplication", "setapplicationchannel", "applicationchannel", "channel", "application"};
+        this.aliases = new String[]{"setapplication", "setapplicationchannel", "applicationchannel", "channel", "application", "setapplications"};
         this.help = "sets the channel for rank applications.";
     }
 

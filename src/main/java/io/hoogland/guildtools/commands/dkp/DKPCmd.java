@@ -29,8 +29,8 @@ public class DKPCmd extends Command {
 
     public DKPCmd(EventWaiter waiter) {
         this.name = "dkp";
-        this.help = "informs the user of their dkp standing. Use without name to get information about character linked to";
-        this.arguments = "<name>, all";
+        this.help = "informs the user of their dkp standing based on input. No input will return all linked characters.";
+        this.arguments = "[none|player|class|all]";
         this.waiter = waiter;
         this.children = new Command[]{new DKPAllCmd(), new DKPImportCmd(waiter),
                 new DKPWarriorCmd(), new DKPRogueCmd(), new DKPDruidCmd(), new DKPHunterCmd(),

@@ -21,6 +21,7 @@ public class SettingsCmd extends Command {
     public SettingsCmd() {
         this.name = "settings";
         this.aliases = new String[]{"settings", "setting"};
+        this.arguments = "[none|setofficer|setapplication]";
         this.help = "shows the settings set for this Discord server.";
         this.children = new Command[]{new SetOfficerCmd(), new SetApplicationCmd()};
     }

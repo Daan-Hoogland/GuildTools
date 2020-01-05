@@ -26,6 +26,7 @@ public class LinkCmd extends Command {
 
     public LinkCmd() {
         this.name = "link";
+        this.arguments = "[player]";
         this.aliases = new String[]{"character", "char", "link"};
         this.help = "links the users Discord account to their in-game character.";
     }

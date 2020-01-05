@@ -22,7 +22,7 @@ public class RulesCmd extends Command {
 
     public RulesCmd() {
         this.name = "rules";
-        this.help = "Displays the rules.";
+        this.help = "displays the rules.";
         this.ownerCommand = true;
     }
 
@@ -89,11 +89,11 @@ public class RulesCmd extends Command {
                         "If as a raider your performance is below what we expect from you, or consistently lower than other players of your class, you *may* be demoted back to trial until your performance has increased.\n\n" +
                         "We expect all raiders to come prepared with the relevant consumables for their class along with enchanted gear.\n\n" +
                         "Our current raid times are\n" +
-                        "```" +
-                        "Wednesday 20:00-23:00 ST (invites 19:30)" +
-                        "Sunday 19:00-22:00 ST (invites 18:30)" +
-                        "Monday 20:00-22:00 ST (during progress, invites 19:30)" +
-                        "```",
+//                        "```" +
+                        "Wednesday 20:00-23:00 ST (invites 19:30)\n" +
+                        "Sunday 19:00-22:00 ST (invites 18:30)\n" +
+                        "Monday 20:00-22:00 ST (during progress, invites 19:30)",
+//                        "```",
                 false);
 
         embed.addField("Required addons",
@@ -132,8 +132,11 @@ public class RulesCmd extends Command {
                 false);
 
         embed.addField("",
-                "**To join the raid voice channel, and to sign up for the raids, you must agree with the rules. To do so, react with the ✅ emoji.**",
+                "**Any updates to these rules will be announced in the " + String.format(Constants.MENTION_CHANNEL, "631952246657122306") + " channel.**\n\n" +
+                        "**To join the raid voice channel, and to sign up for the raids, you must agree with the rules. To do so, react with the ✅ emoji.**",
                 false);
+
+        embed.setFooter("Last updated on 5-1-2020");
 
         embed.setThumbnail("https://i.imgur.com/nytjlah.jpg");
         return embed.build();

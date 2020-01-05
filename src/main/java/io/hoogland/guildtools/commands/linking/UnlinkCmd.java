@@ -22,6 +22,7 @@ public class UnlinkCmd extends Command {
 
     public UnlinkCmd() {
         this.name = "unlink";
+        this.arguments = "[player]";
         this.aliases = new String[]{"unlink", "ulink", "dchar", "dcharacter"};
         this.help = "unlinks the users Discord account from their in-game character.";
     }
