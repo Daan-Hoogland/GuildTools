@@ -10,13 +10,13 @@ docker build \
 
 ### Env variables
 #### SPRING_DATASOURCE_URL
-Sets the datasource target for the application. Format: `postgresql:5432/guild_tools`
+Sets the datasource target for the application. Default: `localhost:5432/guild_tools`
 #### SPRING_DATASOURCE_USERNAME
-Sets the datasource username
+Sets the datasource username. Default: `postgres`
 #### SPRING_DATASOURCE_PASSWORD
 Sets the datasource password
 #### PREFIX
-Sets the prefix used for the application. Default `!`
+Sets the prefix used for the application. Default: `!`
 #### TOKENS_DISCORD
 Sets the secret Discord token for the bot.
 #### TOKENS_OWNER

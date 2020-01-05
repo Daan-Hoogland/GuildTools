@@ -86,7 +86,14 @@ public class RulesCmd extends Command {
         embed.addField("Raids",
                 "Raid sign-ups are available in the Discord channel for the given day. If you do not sign up for the raid **we cannot guarantee you a spot**, as we might've already found a pug to replace you for that raid.\n\n" +
                         "If you consistently don't show up to raids and don't sign absent, or sign up and don't show up, you'll be given a -50 DKP penalty.\n\n" +
-                        "If as a raider your performance is below what we expect from you, or consistently lower than other players of your class, you *may* be demoted back to trial until your performance has increased.",
+                        "If as a raider your performance is below what we expect from you, or consistently lower than other players of your class, you *may* be demoted back to trial until your performance has increased.\n\n" +
+                        "We expect all raiders to come prepared with the relevant consumables for their class along with enchanted gear.\n\n" +
+                        "Our current raid times are\n" +
+                        "```" +
+                        "Wednesday 20:00-23:00 ST (invites 19:30)" +
+                        "Sunday 19:00-22:00 ST (invites 18:30)" +
+                        "Monday 20:00-22:00 ST (during progress, invites 19:30)" +
+                        "```",
                 false);
 
         embed.addField("Required addons",
@@ -94,7 +101,7 @@ public class RulesCmd extends Command {
                         "- " + String.format(Constants.LINK, "DBM", "https://www.curseforge.com/wow/addons/deadly-boss-mods") + "\n" +
                         "- " + String.format(Constants.LINK, "ClassicCastbars", "https://www.curseforge.com/wow/addons/classiccastbars") + "\n" +
                         "- " + String.format(Constants.LINK, "Monolith DKP", "https://www.curseforge.com/wow/addons/monolith-dkp") + "\n" +
-                        "- " + String.format(Constants.LINK, "HealComm", "https://www.wowace.com/projects/libhealcomm-4-0") + " or any addon that includes the HealComm lib (Healers)\n" +
+                        "- " + String.format(Constants.LINK, "HealComm", "https://www.wowace.com/projects/libhealcomm-4-0") + " or any addon that includes HealComm (Healers)\n" +
                         "- " + String.format(Constants.LINK, "Decursive", "https://www.curseforge.com/wow/addons/decursive") + " (Healers, useful)\n"
                 ,
                 false);
