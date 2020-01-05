@@ -20,7 +20,6 @@ import java.util.List;
 @Slf4j
 public abstract class DKPGenericClassCmd extends Command {
 
-    private DKPAllMessageRepository dkpAllMessageRepository = BeanUtils.getBean(DKPAllMessageRepository.class);
     private DKPStandingRepository dkpStandingRepository = BeanUtils.getBean(DKPStandingRepository.class);
     private DKPImportRepository dkpImportRepository = BeanUtils.getBean(DKPImportRepository.class);
 

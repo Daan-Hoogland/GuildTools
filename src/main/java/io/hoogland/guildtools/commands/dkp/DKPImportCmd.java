@@ -40,9 +40,12 @@ public class DKPImportCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
+        log.trace("importing");
         if (!event.getAuthor().isBot()) {
+            log.trace("not bot");
             Optional<GuildSettings> optionalSettings = guildSettingsRepository.findByGuildId(event.getGuild().getIdLong());
             if (optionalSettings.isPresent()) {
+                log.trace("is present");
                 if (RoleUtils.hasRoleWithId(optionalSettings.get().getAdminRoleId(), event.getMember().getRoles()) ||
                         event.getGuild().getOwnerIdLong() == event.getMember().getIdLong()) {
                     event.getChannel().sendTyping().queue();

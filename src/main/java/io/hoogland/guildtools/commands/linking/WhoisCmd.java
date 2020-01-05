@@ -7,7 +7,6 @@ import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.models.Character;
 import io.hoogland.guildtools.models.repositories.CharacterRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
-import io.hoogland.guildtools.utils.CommandUtils;
 import io.hoogland.guildtools.utils.EmbedUtils;
 import io.hoogland.guildtools.utils.LinkUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -30,58 +29,56 @@ public class WhoisCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (CommandUtils.isValidCommand(event, aliases)) {
-            if (event.getArgs().isBlank()) {
+        if (event.getArgs().isBlank()) {
 
-                List<Character> allCharacters = characterRepository
-                        .findAllByUserIdAndGuildId(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
+            List<Character> allCharacters = characterRepository
+                    .findAllByUserIdAndGuildId(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
 
-                String description = String.format(CharacterConstants.CHARACTER_LINKED_DESCRIPTION, String.format(
-                        Constants.MENTION_USER, event.getAuthor().getIdLong()));
+            String description = String.format(CharacterConstants.CHARACTER_LINKED_DESCRIPTION, String.format(
+                    Constants.MENTION_USER, event.getAuthor().getIdLong()));
 
-                event.getChannel().sendMessage(EmbedUtils
-                        .createEmbed(CharacterConstants.CHARACTER_LINKED, description,
-                                LinkUtils.getCharacterFields(allCharacters, Constants.DATE_TIME_FORMATTER_DATE)))
-                        .queue();
+            event.getChannel().sendMessage(EmbedUtils
+                    .createEmbed(CharacterConstants.CHARACTER_LINKED, description,
+                            LinkUtils.getCharacterFields(allCharacters, Constants.DATE_TIME_FORMATTER_DATE)))
+                    .queue();
 
-            } else if (!event.getMessage().getMentionedMembers().isEmpty()) {
+        } else if (!event.getMessage().getMentionedMembers().isEmpty()) {
+            List<Character> characterList = characterRepository
+                    .findAllByUserIdAndGuildId(event.getMessage().getMentionedMembers().get(0).getUser().getIdLong(),
+                            event.getGuild().getIdLong());
+
+            List<MessageEmbed.Field> characterFields = LinkUtils.getCharacterFields(characterList, Constants.DATE_TIME_FORMATTER_DATE);
+
+            String title = String
+                    .format(CharacterConstants.WHOIS_TITLE, "@" + event.getMessage().getMentionedMembers().get(0).getUser().getName());
+
+            String description = String.format(CharacterConstants.WHOIS_DESCRIPTION_DISCORD,
+                    String.format(Constants.MENTION_USER, event.getMessage().getMentionedMembers().get(0).getUser().getIdLong()));
+
+            event.getChannel().sendMessage(
+                    EmbedUtils.createEmbed(title, description, LinkUtils.getCharacterFields(characterList, Constants.DATE_TIME_FORMATTER_DATE)))
+                    .queue();
+        } else {
+            Optional<Character> matchingChar = characterRepository
+                    .findByNameAndGuildId(event.getArgs().toUpperCase(), event.getGuild().getIdLong());
+            if (matchingChar.isPresent()) {
+                long userId = matchingChar.get().getUserId();
                 List<Character> characterList = characterRepository
-                        .findAllByUserIdAndGuildId(event.getMessage().getMentionedMembers().get(0).getUser().getIdLong(),
-                                event.getGuild().getIdLong());
-
-                List<MessageEmbed.Field> characterFields = LinkUtils.getCharacterFields(characterList, Constants.DATE_TIME_FORMATTER_DATE);
+                        .findAllByUserIdAndGuildId(userId, matchingChar.get().getGuildId());
 
                 String title = String
-                        .format(CharacterConstants.WHOIS_TITLE, "@" + event.getMessage().getMentionedMembers().get(0).getUser().getName());
+                        .format(CharacterConstants.WHOIS_TITLE, StringUtils.capitalize(event.getArgs().toLowerCase()));
 
-                String description = String.format(CharacterConstants.WHOIS_DESCRIPTION_DISCORD,
-                        String.format(Constants.MENTION_USER, event.getMessage().getMentionedMembers().get(0).getUser().getIdLong()));
+                String description = String
+                        .format(CharacterConstants.WHOIS_DESCRIPTION_CHARACTER, StringUtils.capitalize(event.getArgs().toLowerCase()),
+                                String.format(Constants.MENTION_USER, userId),
+                                String.format(Constants.MENTION_USER, userId));
 
-                event.getChannel().sendMessage(
-                        EmbedUtils.createEmbed(title, description, LinkUtils.getCharacterFields(characterList, Constants.DATE_TIME_FORMATTER_DATE)))
+                event.getChannel().sendMessage(EmbedUtils
+                        .createEmbed(title, description, LinkUtils.getCharacterFields(characterList, Constants.DATE_TIME_FORMATTER_DATE)))
                         .queue();
             } else {
-                Optional<Character> matchingChar = characterRepository
-                        .findByNameAndGuildId(event.getArgs().toUpperCase(), event.getGuild().getIdLong());
-                if (matchingChar.isPresent()) {
-                    long userId = matchingChar.get().getUserId();
-                    List<Character> characterList = characterRepository
-                            .findAllByUserIdAndGuildId(userId, matchingChar.get().getGuildId());
-
-                    String title = String
-                            .format(CharacterConstants.WHOIS_TITLE, StringUtils.capitalize(event.getArgs().toLowerCase()));
-
-                    String description = String
-                            .format(CharacterConstants.WHOIS_DESCRIPTION_CHARACTER, StringUtils.capitalize(event.getArgs().toLowerCase()),
-                                    String.format(Constants.MENTION_USER, userId),
-                                    String.format(Constants.MENTION_USER, userId));
-
-                    event.getChannel().sendMessage(EmbedUtils
-                            .createEmbed(title, description, LinkUtils.getCharacterFields(characterList, Constants.DATE_TIME_FORMATTER_DATE)))
-                            .queue();
-                } else {
-                    log.debug("nothing found");
-                }
+                log.debug("nothing found");
             }
         }
     }

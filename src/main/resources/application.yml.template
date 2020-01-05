@@ -3,15 +3,22 @@ spring:
     location: banner.txt
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://
-    username:
+    url: localhost:5432/guild_tools
+    username: postgres
     password:
+    hbm2ddl: update
+    showsql: false
 logging:
   level:
-    root: off
+    root: warn
     org:
       springframework:
-        boot: off
+        boot: warn
+      hibernate: warn
     io:
       hoogland:
         guildtools: trace
+prefix:
+tokens:
+  discord:
+  owner:

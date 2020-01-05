@@ -12,7 +12,6 @@ import io.hoogland.guildtools.models.ReactionRoleMessage;
 import io.hoogland.guildtools.models.repositories.ReactionRoleMessageRepository;
 import io.hoogland.guildtools.models.repositories.ReactionRoleRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
-import io.hoogland.guildtools.utils.CommandUtils;
 import io.hoogland.guildtools.utils.EmbeddedUtils;
 import io.hoogland.guildtools.utils.RoleUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +43,7 @@ public class RoleReactionCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        boolean validCommand = CommandUtils.isValidCommand(event, aliases);
-        if (event.getMember().hasPermission(Permission.MANAGE_ROLES) && validCommand) {
+        if (event.getMember().hasPermission(Permission.MANAGE_ROLES)) {
             if (event.getSelfMember().hasPermission(Permission.MANAGE_ROLES) &&
                     event.getSelfMember().hasPermission(Permission.MESSAGE_ADD_REACTION)) {
                 MessageEmbed embed = EmbeddedUtils
@@ -63,10 +61,6 @@ public class RoleReactionCmd extends Command {
                         ReactionRoleConstants.ADD_REACT_DESCRIPTION__INSUFFICIENT_PERMISSIONS, null, "Insufficient Permissions");
                 execute(event);
             }
-
-
-        } else if (validCommand) {
-            event.reply("You are not authorized to use this command.");
         }
     }
 

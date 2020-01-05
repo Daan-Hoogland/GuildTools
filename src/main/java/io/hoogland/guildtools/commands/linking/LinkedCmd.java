@@ -7,7 +7,6 @@ import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.models.Character;
 import io.hoogland.guildtools.models.repositories.CharacterRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
-import io.hoogland.guildtools.utils.CommandUtils;
 import io.hoogland.guildtools.utils.EmbedUtils;
 import io.hoogland.guildtools.utils.LinkUtils;
 
@@ -25,17 +24,15 @@ public class LinkedCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (CommandUtils.isValidCommand(event, aliases)) {
-            List<Character> allCharacters = characterRepository
-                    .findAllByUserIdAndGuildId(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
+        List<Character> allCharacters = characterRepository
+                .findAllByUserIdAndGuildId(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
 
-            String description = String.format(CharacterConstants.CHARACTER_LINKED_DESCRIPTION, String.format(
-                    Constants.MENTION_USER, event.getAuthor().getIdLong()));
+        String description = String.format(CharacterConstants.CHARACTER_LINKED_DESCRIPTION, String.format(
+                Constants.MENTION_USER, event.getAuthor().getIdLong()));
 
-            event.getChannel().sendMessage(EmbedUtils
-                    .createEmbed(CharacterConstants.CHARACTER_LINKED, description,
-                            LinkUtils.getCharacterFields(allCharacters, Constants.DATE_TIME_FORMATTER_DATE)))
-                    .queue();
-        }
+        event.getChannel().sendMessage(EmbedUtils
+                .createEmbed(CharacterConstants.CHARACTER_LINKED, description,
+                        LinkUtils.getCharacterFields(allCharacters, Constants.DATE_TIME_FORMATTER_DATE)))
+                .queue();
     }
 }

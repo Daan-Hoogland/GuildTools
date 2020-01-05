@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "guild_settings")
 public class GuildSettings {
 
     @Id

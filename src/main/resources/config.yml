@@ -1,0 +1,28 @@
+icons:
+  druid:
+    icon: https://i.imgur.com/dzMcZH4.png
+    color: FF7D0A
+  warlock:
+    icon: https://i.imgur.com/a4m9tRF.png
+    color: 9482C9
+  warrior:
+    icon: https://i.imgur.com/gfIdFUD.png
+    color: C79C6E
+  paladin:
+    icon: https://i.imgur.com/Tx8oSRM.png
+    color: F58CBA
+  mage:
+    icon: https://i.imgur.com/uy5zO2o.png
+    color: 69CCF0
+  priest:
+    icon: https://i.imgur.com/zhZ9bJN.png
+    color: FFFFFF
+  rogue:
+    icon: https://i.imgur.com/G4A8TaU.png
+    color: FFF569
+  hunter:
+    icon: https://i.imgur.com/gPN3Gpj.png
+    color: ABD473
+  shaman:
+    icon: https://i.imgur.com/B8b19to.png
+    color: 0070DE

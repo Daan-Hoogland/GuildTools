@@ -3,9 +3,10 @@ package io.hoogland.guildtools;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.hoogland.guildtools.commands.HelpCmd;
+import io.hoogland.guildtools.commands.application.ApplyCmd;
 import io.hoogland.guildtools.commands.RulesCmd;
 import io.hoogland.guildtools.commands.ShutdownCmd;
+import io.hoogland.guildtools.commands.application.ApplyListener;
 import io.hoogland.guildtools.commands.dkp.DKPAllReactionListener;
 import io.hoogland.guildtools.commands.dkp.DKPClassReactionListener;
 import io.hoogland.guildtools.commands.dkp.DKPCmd;
@@ -28,7 +29,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.security.auth.login.LoginException;
-import java.util.HashMap;
 
 @SpringBootApplication(scanBasePackages = "io.hoogland.guildtools.*")
 @EnableJpaRepositories("io.hoogland.guildtools.models.repositories")
@@ -65,7 +65,7 @@ public class App implements CommandLineRunner {
         builder.addCommands(new LinkedCmd());
         builder.addCommands(new WhoisCmd());
         builder.addCommands(new ShutdownCmd());
-        builder.addCommands(new HelpCmd(waiter));
+        builder.addCommands(new ApplyCmd());
         builder.addCommands(new RulesCmd());
 
         CommandClient client = builder.build();
@@ -75,6 +75,7 @@ public class App implements CommandLineRunner {
                 .addEventListeners(new RoleReactionListener())
                 .addEventListeners(new DKPAllReactionListener())
                 .addEventListeners(new DKPClassReactionListener())
+                .addEventListeners(new ApplyListener())
                 .addEventListeners(waiter)
                 .build();
     }
