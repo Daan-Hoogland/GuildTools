@@ -12,7 +12,6 @@ import io.hoogland.guildtools.utils.EmbedUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.requests.RestAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class ApplyCmd extends Command {
             }
 
             List<Role> requestedRoles = event.getGuild().getRolesByName(event.getArgs(), true);
-            if(requestedRoles.isEmpty()) {
+            if (requestedRoles.isEmpty()) {
                 MessageEmbed errorMsg = EmbedUtils
                         .createErrorEmbed("Invalid roles", "No matching roles found", "Invalid roles", "");
                 event.getChannel().sendMessage(errorMsg).queue(success -> {

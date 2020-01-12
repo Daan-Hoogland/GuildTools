@@ -14,5 +14,6 @@ public class EmojiConstants {
     public static final String EMOJI_HUNTER = "<:hunter:651797336883855361>";
     public static final String EMOJI_SHAMAN = "<:shaman:651797336791449621>";
     public static final String EMOJI_WARRIOR = "<:warrior:651797336749637653>";
-    public static final String EMOJI_BLANK = "<:empty:660151903753076751>\n";
+    public static final String EMOJI_BLANK = "<:empty:660151903753076751>";
+    public static final String EMOJI_LOADING = "<a:loading:664112010795155467>";
 }

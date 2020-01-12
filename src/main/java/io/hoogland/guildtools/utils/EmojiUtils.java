@@ -5,6 +5,7 @@ import io.hoogland.guildtools.constants.DKPConstants;
 import io.hoogland.guildtools.constants.EmojiConstants;
 import net.dv8tion.jda.api.entities.Message;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -70,5 +71,17 @@ public class EmojiUtils {
             emojis.add(getEmojiForClass(c));
         });
         return emojis;
+    }
+
+    public static String getChangeEmoji(long dkpChange) {
+        return (Long.signum(dkpChange) < 0) ? EmojiConstants.EMOJI_DOWN : EmojiConstants.EMOJI_UP;
+    }
+
+    public static String getChangeEmoji(int epgpChange) {
+        return (Integer.signum(epgpChange) < 0) ? EmojiConstants.EMOJI_DOWN : EmojiConstants.EMOJI_UP;
+    }
+
+    public static String getChangeEmoji(BigDecimal prChange) {
+        return (prChange.signum() < 0) ? EmojiConstants.EMOJI_DOWN : EmojiConstants.EMOJI_UP;
     }
 }

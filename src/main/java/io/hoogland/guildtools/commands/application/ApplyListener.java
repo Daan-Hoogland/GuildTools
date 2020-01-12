@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +82,9 @@ public class ApplyListener extends ListenerAdapter {
                         }
 
                         MessageEmbed deniedMsg = EmbedUtils
-                                .createEmbed("Application denied",  String.format("Application denied on server %s.\n\nThe following roles were part of your request: %s",
-                                        event.getGuild().getName(), String.join(", ", deniedList)), null,
+                                .createEmbed("Application denied",
+                                        String.format("Application denied on server %s.\n\nThe following roles were part of your request: %s",
+                                                event.getGuild().getName(), String.join(", ", deniedList)), null,
                                         Constants.COLOR_NOT_OK, String.format("Approved on %s at %s",
                                                 LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER_DATE),
                                                 LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER_TIME)), null, event.getGuild().getIconUrl());

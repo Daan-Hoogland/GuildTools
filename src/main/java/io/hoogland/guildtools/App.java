@@ -4,17 +4,18 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import io.hoogland.guildtools.commands.HelpCmd;
-import io.hoogland.guildtools.commands.application.ApplyCmd;
 import io.hoogland.guildtools.commands.RulesCmd;
 import io.hoogland.guildtools.commands.ShutdownCmd;
+import io.hoogland.guildtools.commands.application.ApplyCmd;
 import io.hoogland.guildtools.commands.application.ApplyListener;
-import io.hoogland.guildtools.commands.dkp.DKPAllReactionListener;
-import io.hoogland.guildtools.commands.dkp.DKPClassReactionListener;
-import io.hoogland.guildtools.commands.dkp.DKPCmd;
 import io.hoogland.guildtools.commands.linking.LinkCmd;
 import io.hoogland.guildtools.commands.linking.LinkedCmd;
 import io.hoogland.guildtools.commands.linking.UnlinkCmd;
 import io.hoogland.guildtools.commands.linking.WhoisCmd;
+import io.hoogland.guildtools.commands.loot.LootAllReactionListener;
+import io.hoogland.guildtools.commands.loot.LootClassReactionListener;
+import io.hoogland.guildtools.commands.loot.dkp.DKPCmd;
+import io.hoogland.guildtools.commands.loot.epgp.EPGPCmd;
 import io.hoogland.guildtools.commands.rolereaction.RoleReactionCmd;
 import io.hoogland.guildtools.commands.rolereaction.RoleReactionListener;
 import io.hoogland.guildtools.commands.settings.SettingsCmd;
@@ -62,6 +63,7 @@ public class App implements CommandLineRunner {
         builder.setActivity(Activity.listening(prefix + "help"));
         builder.addCommands(new RoleReactionCmd(waiter));
         builder.addCommands(new DKPCmd(waiter));
+        builder.addCommands(new EPGPCmd());
         builder.addCommands(new SettingsCmd());
         builder.addCommands(new LinkCmd());
         builder.addCommands(new UnlinkCmd());
@@ -77,8 +79,8 @@ public class App implements CommandLineRunner {
         jda = new JDABuilder(discordToken)
                 .addEventListeners(client)
                 .addEventListeners(new RoleReactionListener())
-                .addEventListeners(new DKPAllReactionListener())
-                .addEventListeners(new DKPClassReactionListener())
+                .addEventListeners(new LootAllReactionListener())
+                .addEventListeners(new LootClassReactionListener())
                 .addEventListeners(new ApplyListener())
                 .addEventListeners(waiter)
                 .build();

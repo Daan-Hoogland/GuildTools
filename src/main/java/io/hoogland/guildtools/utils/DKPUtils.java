@@ -3,15 +3,14 @@ package io.hoogland.guildtools.utils;
 import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.constants.DKPConstants;
 import io.hoogland.guildtools.constants.EmojiConstants;
-import io.hoogland.guildtools.models.DKPImport;
 import io.hoogland.guildtools.models.DKPStanding;
+import io.hoogland.guildtools.models.LootImport;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,8 +18,6 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Slf4j
 public class DKPUtils {
-
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static List<DKPStanding> getDuplicates(final List<DKPStanding> dkpStandings) {
         return getDuplicatesMap(dkpStandings).values().stream()
@@ -78,28 +75,31 @@ public class DKPUtils {
                                 Constants.DATE_TIME_FORMATTER)), null, classInfo.get("icon").toString());
     }
 
-    public static String getFooter(Optional<DKPImport> dkpImport, Page<DKPStanding> guildStanding, int page) {
+    public static String getFooter(Optional<LootImport> dkpImport, Page<DKPStanding> guildStanding, int page) {
         if (guildStanding.getTotalPages() > 1) {
             return "Page " + (page + 1) + "/" + guildStanding.getTotalPages() +
-                    "\nTo see the next page, react with the arrow emojis. | Last updated: " + dkpImport.get().getCreatedDate().format(formatter);
+                    "\nTo see the next page, react with the arrow emojis. | Last updated: " +
+                    dkpImport.get().getCreatedDate().format(Constants.DATE_TIME_FORMATTER);
         } else if (dkpImport.isPresent()) {
-            return "Last updated: " + dkpImport.get().getCreatedDate().format(formatter);
+            return "Last updated: " + dkpImport.get().getCreatedDate().format(Constants.DATE_TIME_FORMATTER);
         } else {
             return "Unknown update time";
         }
     }
 
-    public static MessageEmbed getDKPAllEmbed(String messageTitle, Optional<DKPImport> dkpImport, Page<DKPStanding> guildStanding, int page) {
+    public static MessageEmbed getDKPAllEmbed(String messageTitle, Optional<LootImport> dkpImport, Page<DKPStanding> guildStanding, int page) {
         EmbedBuilder embed = new EmbedBuilder();
 
         embed.setTitle(messageTitle);
         embed.setThumbnail("https://i.imgur.com/5gzgA0B.png");
         if (guildStanding.getTotalPages() > 1) {
             embed.setFooter("Page " + (page + 1) + "/" + guildStanding.getTotalPages() +
-                            "\nTo see the next page, react with the arrow emojis. | Last updated: " + dkpImport.get().getCreatedDate().format(formatter),
+                            "\nTo see the next page, react with the arrow emojis. | Last updated: " +
+                            dkpImport.get().getCreatedDate().format(Constants.DATE_TIME_FORMATTER),
                     "https://i.imgur.com/pZf0MvC.png");
         } else if (dkpImport.isPresent()) {
-            embed.setFooter("Last updated: " + dkpImport.get().getCreatedDate().format(formatter), "https://i.imgur.com/pZf0MvC.png");
+            embed.setFooter("Last updated: " + dkpImport.get().getCreatedDate().format(Constants.DATE_TIME_FORMATTER),
+                    "https://i.imgur.com/pZf0MvC.png");
         } else {
             log.debug("no dkpimport found?");
         }

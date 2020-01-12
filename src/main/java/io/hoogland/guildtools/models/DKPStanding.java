@@ -19,23 +19,19 @@ public class DKPStanding extends AuditedEntity {
     @CsvIgnore
     private long guildId;
 
-    @Column(unique = true, nullable = false)
-//    @CsvBindByPosition(position = 0, required = true)
+    @Column(nullable = false)
     @CsvBindByName(column = "player", required = true)
     private String player;
 
     @Column(nullable = false)
-//    @CsvBindByPosition(position = 1, required = true)
     @CsvBindByName(column = "class", required = true)
     private String clazz;
 
     @Column(nullable = false)
-//    @CsvBindByPosition(position = 2)
     @CsvBindByName(column = "DKP", required = true)
     private long dkp;
 
     @Column(nullable = false)
-//    @CsvBindByPosition(position = 3)
     @CsvBindByName(column = "previousDKP", required = true)
     private long previous;
 
@@ -44,12 +40,10 @@ public class DKPStanding extends AuditedEntity {
     private long dkpChange;
 
     @Column(nullable = false)
-//    @CsvBindByPosition(position = 4)
     @CsvBindByName(column = "lifetimeGained", required = true)
     private long lifetimeGained;
 
     @Column(nullable = false)
-//    @CsvBindByPosition(position = 5)
     @CsvBindByName(column = "lifetimeSpent", required = true)
     private long lifetimeSpent;
 

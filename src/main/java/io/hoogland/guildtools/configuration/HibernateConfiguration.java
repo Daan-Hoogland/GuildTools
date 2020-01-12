@@ -1,6 +1,5 @@
 package io.hoogland.guildtools.configuration;
 
-import io.hoogland.guildtools.utils.ConfigUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Properties;
 
 @Configuration
@@ -25,6 +23,8 @@ import java.util.Properties;
 @ComponentScan({"io.hoogland.guildtools.models"})
 public class HibernateConfiguration {
 
+    private static final String DIALECT = "org.hibernate.dialect.PostgreSQL92Dialect";
+    private static final boolean FORMAT_SQL = true;
     @Value("${spring.datasource.driver-class-name}")
     private String driver;
     @Value("${spring.datasource.username}")
@@ -37,9 +37,6 @@ public class HibernateConfiguration {
     private String showsql;
     @Value("${spring.datasource.hbm2ddl}")
     private String hbm2ddl;
-
-    private static final String DIALECT = "org.hibernate.dialect.PostgreSQL92Dialect";
-    private static final boolean FORMAT_SQL = true;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

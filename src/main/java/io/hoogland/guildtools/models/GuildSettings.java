@@ -1,8 +1,13 @@
 package io.hoogland.guildtools.models;
 
+import io.hoogland.guildtools.constants.Constants;
+import io.hoogland.guildtools.utils.EmbedUtils;
 import lombok.Data;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,4 +24,39 @@ public class GuildSettings {
     private Long adminRoleId;
 
     private Long applicationChannelId;
+
+    private boolean dkp;
+    private boolean epgp;
+
+    public void setDkp(boolean dkp) {
+        this.epgp = !dkp;
+        this.dkp = dkp;
+    }
+
+    public void setEpgp(boolean epgp) {
+        this.epgp = epgp;
+        this.dkp = !epgp;
+    }
+
+    public MessageEmbed getMessageEmbed() {
+        List<MessageEmbed.Field> fields = new ArrayList<>();
+
+        fields.add(new MessageEmbed.Field("Officer role",
+                this.adminRoleId != null ? String.format(Constants.MENTION_ROLE, this.adminRoleId) : "*Not set*", false));
+        fields.add(new MessageEmbed.Field("Application channel", this.applicationChannelId != null ? String
+                .format(Constants.MENTION_CHANNEL, this.applicationChannelId) : "*Not set*",
+                false));
+        String loot = "";
+        if (this.epgp) {
+            loot = "EPGP";
+        } else if (this.dkp) {
+            loot = "DKP";
+        } else {
+            loot = "Not set";
+        }
+        fields.add(new MessageEmbed.Field("Loot system", loot,
+                false));
+
+        return EmbedUtils.createEmbed("Guild settings", null, fields);
+    }
 }
