@@ -70,7 +70,7 @@ public class RulesCmd extends Command {
                         "More information about EPGP can be found " + String.format(Constants.LINK, "here", "http://www.epgpweb.com/help/system") +
                         "\n\n" +
                         "Certain items will be distributed through a loot council. These items are marked as LC in the Class priority spreadsheet below and will be awarded based on performance, rank and attendance.\n\n" +
-                        "The loot priority is as follows:\n`Core Raider => Raider > Trial`\nThis means that trials cannot get items unless raiders pass on the item. The priority for Core Raider only applies to the items marked as LC.\n" +
+                        "The loot priority is as follows:\n`Core Raider >= Raider > Trial`\nThis means that trials cannot get items unless raiders pass on the item.\n" +
                         "\n\n" +
                         "Pugs can win 1 item per raid. If a member of the guild wins the roll, the item is distributed using EPGP.\n\n" +
                         "**Class loot priority can be found " + String.format(Constants.LINK, "here",
@@ -82,7 +82,7 @@ public class RulesCmd extends Command {
         embed.addField("Extra rewards & punishments", "There are multiple ways to get extra EP rewards besides killing bosses.\n\n" +
                 "- For every minute the raid is cleared faster than the previous record, everyone part of that raid will receive 1 EP.\n" +
                 "- Participating in guild events will receive EP based on what kind of event it is. Got an idea for an event? Message an officer about it." +
-                "- Occasionally extra EP may be given out for good performance.\n\n" +
+                "- Occasionally extra EP may be given out for extraordinary performance.\n\n" +
                 "Just like rewards, there are also situations where EP may be taken away from a player, or additional GP added. These situations include:\n" +
                 "- Consistent bad performance.\n" +
                 "- Consistently not using consumables, even after an officer has warned the player.\n" +
@@ -124,7 +124,7 @@ public class RulesCmd extends Command {
                 false);
 
         embed.addField("Core Raiders",
-                "Core Raider is the rank above regular raider. People with this rank will have priority on certain rare/powerful items over regular raiders. " +
+                "Core Raider is the rank above regular raider. People with this rank will be _higher_ on the priority list for the items marked as LC. " +
                         "The requirements to get promoted to core raider are different for every role and class. For specifics, ask an officer. The general requirements can be found below.\n\n" +
                         "- Consumables for every fight\n" +
                         "- Consistently joining raids\n" +
@@ -146,7 +146,7 @@ public class RulesCmd extends Command {
                         "**To join the raid voice channel, and to sign up for the raids, you must agree with the rules. To do so, react with the ✅ emoji.**",
                 false);
 
-        embed.setFooter("Last updated on 12-1-2020");
+        embed.setFooter("Last updated on 13-1-2020");
 
         embed.setThumbnail("https://i.imgur.com/nytjlah.jpg");
         return embed.build();
