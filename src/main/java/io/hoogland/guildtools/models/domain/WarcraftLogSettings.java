@@ -28,22 +28,30 @@ public class WarcraftLogSettings implements Serializable {
 
     public String getCalendarUrl() {
         return WarcraftLogsConstants.WARCRAFTLOGS_API_URL +
-                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_CALENDAR, this.region.name(), this.realm, this.guild.replace(" ", "%20"));
+                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_CALENDAR, this.region.name(), getUrlEncoded(this.realm),
+                        getUrlEncoded(this.guild));
     }
 
     public String getCalendarUrl(String guildName) {
         return WarcraftLogsConstants.WARCRAFTLOGS_API_URL +
-                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_CALENDAR, this.region.name(), this.realm, guildName.replace(" ", "%20"));
+                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_CALENDAR, this.region.name(), getUrlEncoded(this.realm),
+                        getUrlEncoded(guildName));
     }
 
     public String getReportsUrl(String apiKey) {
         return WarcraftLogsConstants.WARCRAFTLOGS_API_URL +
-                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_REPORTS, this.guild, this.realm, this.region.name()) + "?api_key=" + apiKey;
+                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_REPORTS, getUrlEncoded(this.guild), getUrlEncoded(this.realm),
+                        this.region.name()) + "?api_key=" + apiKey;
     }
 
     public String getReportsUrl(String apiKey, String guildName) {
         return WarcraftLogsConstants.WARCRAFTLOGS_API_URL +
-                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_REPORTS, guildName, this.realm, this.region.name()) + "?api_key=" + apiKey;
+                String.format(WarcraftLogsConstants.WARCRAFTLOGS_API_REPORTS, guildName, getUrlEncoded(this.realm), this.region.name()) +
+                "?api_key=" + apiKey;
+    }
+
+    private String getUrlEncoded(String string) {
+        return string.replace(" ", "%20");
     }
 
 }

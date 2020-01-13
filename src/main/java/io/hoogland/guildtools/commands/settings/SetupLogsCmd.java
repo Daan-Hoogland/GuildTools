@@ -118,14 +118,12 @@ public class SetupLogsCmd extends Command {
         MessageEmbed msg = EmbedUtils
                 .createEmbed("WarcraftLogs Setup - Guild Name", "Respond with your guild name.", null, color, null, null,
                         WarcraftLogsConstants.ICON_LINK);
-        log.debug(settings.getRegion().name());
         channel.sendMessage(msg).queue(success -> {
             waiter.waitForEvent(PrivateMessageReceivedEvent.class, event -> !event.getAuthor().isBot(),
                     e -> {
                         if (e.getMessage().getContentRaw().equalsIgnoreCase(ReactionRoleConstants.CANCEL_COMMAND)) {
                             cancelCommand(e.getMessage(), e.getChannel());
                         } else {
-                            log.debug(e.getMessage().getContentRaw());
                             settings.setGuild(e.getMessage().getContentRaw());
                             waitForServer(originalEvent, e.getChannel(), settings);
                         }
@@ -143,7 +141,6 @@ public class SetupLogsCmd extends Command {
                         if (e.getMessage().getContentRaw().equalsIgnoreCase(ReactionRoleConstants.CANCEL_COMMAND)) {
                             cancelCommand(e.getMessage(), e.getChannel());
                         } else {
-                            log.debug(e.getMessage().getContentRaw());
                             settings.setRealm(e.getMessage().getContentRaw());
                             waitForNumberOfLogs(originalEvent, e.getChannel(), settings);
                         }

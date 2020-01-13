@@ -1,4 +1,6 @@
 spring:
+  jpa:
+    open-in-view: false
   banner:
     location: banner.txt
   datasource:
@@ -22,3 +24,4 @@ prefix:
 tokens:
   discord:
   owner:
+  warcraftlogs:

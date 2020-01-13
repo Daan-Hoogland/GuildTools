@@ -44,11 +44,6 @@ public class LogsCmd extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (event.getArgs().isEmpty()) {
-
-        } else {
-
-        }
         Optional<GuildSettings> optionalSettings = guildSettingsRepository.findByGuildId(event.getGuild().getIdLong());
         if (optionalSettings.isPresent()) {
             WarcraftLogSettings settings = optionalSettings.get().getWarcraftLogSettings();
