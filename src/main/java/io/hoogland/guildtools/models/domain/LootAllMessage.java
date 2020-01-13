@@ -1,4 +1,4 @@
-package io.hoogland.guildtools.models;
+package io.hoogland.guildtools.models.domain;
 
 import lombok.Data;
 import net.dv8tion.jda.api.entities.Message;

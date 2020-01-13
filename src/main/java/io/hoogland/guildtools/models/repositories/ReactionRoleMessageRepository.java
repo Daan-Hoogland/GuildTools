@@ -1,6 +1,6 @@
 package io.hoogland.guildtools.models.repositories;
 
-import io.hoogland.guildtools.models.ReactionRoleMessage;
+import io.hoogland.guildtools.models.domain.ReactionRoleMessage;
 import io.hoogland.guildtools.models.ReactionRoleMessageDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

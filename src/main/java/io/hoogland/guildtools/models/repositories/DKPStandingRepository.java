@@ -1,6 +1,6 @@
 package io.hoogland.guildtools.models.repositories;
 
-import io.hoogland.guildtools.models.DKPStanding;
+import io.hoogland.guildtools.models.domain.DKPStanding;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

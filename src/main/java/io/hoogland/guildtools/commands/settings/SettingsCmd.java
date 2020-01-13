@@ -2,7 +2,7 @@ package io.hoogland.guildtools.commands.settings;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import io.hoogland.guildtools.models.GuildSettings;
+import io.hoogland.guildtools.models.domain.GuildSettings;
 import io.hoogland.guildtools.models.repositories.GuildSettingsRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
 import io.hoogland.guildtools.utils.EmbedUtils;
@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class SettingsCmd extends Command {
 
@@ -40,7 +41,9 @@ public class SettingsCmd extends Command {
             }
         } else {
             MessageEmbed invalid = EmbedUtils.createErrorEmbed("Invalid settings", null, "No settings found for this Discord server.", "");
-            event.getChannel().sendMessage(invalid).queue();
+            event.getChannel().sendMessage(invalid).queue( success -> {
+                success.delete().queueAfter(20, TimeUnit.SECONDS);
+            });
             event.getMessage().delete().queue();
         }
     }

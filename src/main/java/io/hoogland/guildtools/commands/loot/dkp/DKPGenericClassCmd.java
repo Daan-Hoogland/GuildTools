@@ -2,7 +2,7 @@ package io.hoogland.guildtools.commands.loot.dkp;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import io.hoogland.guildtools.models.DKPStanding;
+import io.hoogland.guildtools.models.domain.DKPStanding;
 import io.hoogland.guildtools.models.repositories.DKPStandingRepository;
 import io.hoogland.guildtools.models.repositories.LootImportRepository;
 import io.hoogland.guildtools.utils.*;

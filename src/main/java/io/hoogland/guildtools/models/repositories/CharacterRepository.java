@@ -1,6 +1,6 @@
 package io.hoogland.guildtools.models.repositories;
 
-import io.hoogland.guildtools.models.Character;
+import io.hoogland.guildtools.models.domain.Character;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

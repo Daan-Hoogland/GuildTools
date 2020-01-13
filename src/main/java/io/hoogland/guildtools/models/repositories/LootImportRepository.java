@@ -1,6 +1,6 @@
 package io.hoogland.guildtools.models.repositories;
 
-import io.hoogland.guildtools.models.LootImport;
+import io.hoogland.guildtools.models.domain.LootImport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

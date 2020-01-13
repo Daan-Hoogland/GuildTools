@@ -3,8 +3,8 @@ package io.hoogland.guildtools.commands;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import io.hoogland.guildtools.constants.Constants;
-import io.hoogland.guildtools.models.ReactionRole;
-import io.hoogland.guildtools.models.ReactionRoleMessage;
+import io.hoogland.guildtools.models.domain.ReactionRole;
+import io.hoogland.guildtools.models.domain.ReactionRoleMessage;
 import io.hoogland.guildtools.models.repositories.ReactionRoleMessageRepository;
 import io.hoogland.guildtools.models.repositories.ReactionRoleRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
@@ -66,7 +66,7 @@ public class RulesCmd extends Command {
 
         embed.addField("Loot",
                 "EPGP is used to distribute most loot within the guild. People are awarded EP for attending raids and participating in guild events.\n\n" +
-                        "The person with the highest ratio (calculated as EP/GP) will receive the item, and the GP cost for the item will be added to that players total, causing their ratio to drop.\n" +
+                        "The person with the highest ratio (calculated as EP/GP) will receive the item, and the GP cost for the item will be added to that players total, causing their ratio to drop. Once a week both EP and GP are decayed by 10%.\n" +
                         "More information about EPGP can be found " + String.format(Constants.LINK, "here", "http://www.epgpweb.com/help/system") +
                         "\n\n" +
                         "Certain items will be distributed through a loot council. These items are marked as LC in the Class priority spreadsheet below and will be awarded based on performance, rank and attendance.\n\n" +
@@ -146,7 +146,7 @@ public class RulesCmd extends Command {
                         "**To join the raid voice channel, and to sign up for the raids, you must agree with the rules. To do so, react with the ✅ emoji.**",
                 false);
 
-        embed.setFooter("Last updated on 13-1-2020");
+        embed.setFooter("Last updated on 14-1-2020");
 
         embed.setThumbnail("https://i.imgur.com/nytjlah.jpg");
         return embed.build();

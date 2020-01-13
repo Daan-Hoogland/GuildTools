@@ -1,4 +1,4 @@
-package io.hoogland.guildtools.models;
+package io.hoogland.guildtools.models.domain;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvIgnore;

@@ -1,7 +1,7 @@
 package io.hoogland.guildtools.commands.application;
 
 import io.hoogland.guildtools.constants.Constants;
-import io.hoogland.guildtools.models.RoleApplication;
+import io.hoogland.guildtools.models.domain.RoleApplication;
 import io.hoogland.guildtools.models.repositories.RoleApplicationRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
 import io.hoogland.guildtools.utils.EmbedUtils;

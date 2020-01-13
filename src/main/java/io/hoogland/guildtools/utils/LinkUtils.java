@@ -1,6 +1,6 @@
 package io.hoogland.guildtools.utils;
 
-import io.hoogland.guildtools.models.Character;
+import io.hoogland.guildtools.models.domain.Character;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.springframework.util.StringUtils;
 

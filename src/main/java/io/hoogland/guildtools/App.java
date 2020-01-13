@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import io.hoogland.guildtools.commands.HelpCmd;
+import io.hoogland.guildtools.commands.LogsCmd;
 import io.hoogland.guildtools.commands.RulesCmd;
 import io.hoogland.guildtools.commands.ShutdownCmd;
 import io.hoogland.guildtools.commands.application.ApplyCmd;
@@ -19,6 +20,8 @@ import io.hoogland.guildtools.commands.loot.epgp.EPGPCmd;
 import io.hoogland.guildtools.commands.rolereaction.RoleReactionCmd;
 import io.hoogland.guildtools.commands.rolereaction.RoleReactionListener;
 import io.hoogland.guildtools.commands.settings.SettingsCmd;
+import io.hoogland.guildtools.commands.settings.SetupCmd;
+import io.hoogland.guildtools.commands.settings.SetupLogsCmd;
 import io.hoogland.guildtools.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
@@ -47,6 +50,8 @@ public class App implements CommandLineRunner {
     private String discordToken;
     @Value("${tokens.owner}")
     private String ownerId;
+    @Value("${tokens.warcraftlogs}")
+    private String warcraftlogsToken;
 
     public static void main(String[] args) {
         ConfigUtils.loadConfiguration();
@@ -61,18 +66,8 @@ public class App implements CommandLineRunner {
         builder.setPrefix(prefix);
         builder.setOwnerId(ownerId);
         builder.setActivity(Activity.listening(prefix + "help"));
-        builder.addCommands(new RoleReactionCmd(waiter));
-        builder.addCommands(new DKPCmd(waiter));
-        builder.addCommands(new EPGPCmd());
-        builder.addCommands(new SettingsCmd());
-        builder.addCommands(new LinkCmd());
-        builder.addCommands(new UnlinkCmd());
-        builder.addCommands(new LinkedCmd());
-        builder.addCommands(new WhoisCmd());
-        builder.addCommands(new ShutdownCmd());
-        builder.addCommands(new ApplyCmd());
-        builder.addCommands(new RulesCmd());
-        builder.addCommands(new HelpCmd());
+        builder.addCommands(new RoleReactionCmd(waiter), new DKPCmd(waiter), new EPGPCmd(), new SettingsCmd(), new LinkCmd(), new UnlinkCmd(),
+                new LinkedCmd(), new WhoisCmd(), new ShutdownCmd(), new ApplyCmd(), new RulesCmd(), new HelpCmd(), new SetupCmd(waiter, warcraftlogsToken), new LogsCmd(warcraftlogsToken));
 
         client = builder.build();
 

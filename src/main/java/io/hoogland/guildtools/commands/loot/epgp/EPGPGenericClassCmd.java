@@ -2,7 +2,7 @@ package io.hoogland.guildtools.commands.loot.epgp;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import io.hoogland.guildtools.models.EPGPStanding;
+import io.hoogland.guildtools.models.domain.EPGPStanding;
 import io.hoogland.guildtools.models.repositories.EPGPStandingRepository;
 import io.hoogland.guildtools.utils.*;
 import lombok.extern.slf4j.Slf4j;

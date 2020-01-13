@@ -3,7 +3,7 @@ package io.hoogland.guildtools.commands;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import io.hoogland.guildtools.App;
-import io.hoogland.guildtools.models.GuildSettings;
+import io.hoogland.guildtools.models.domain.GuildSettings;
 import io.hoogland.guildtools.models.repositories.GuildSettingsRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
 import io.hoogland.guildtools.utils.RoleUtils;

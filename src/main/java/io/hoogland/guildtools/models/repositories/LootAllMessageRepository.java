@@ -1,6 +1,6 @@
 package io.hoogland.guildtools.models.repositories;
 
-import io.hoogland.guildtools.models.LootAllMessage;
+import io.hoogland.guildtools.models.domain.LootAllMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

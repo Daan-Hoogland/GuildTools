@@ -1,7 +1,7 @@
 package io.hoogland.guildtools.commands.loot;
 
 import io.hoogland.guildtools.App;
-import io.hoogland.guildtools.models.LootAllMessage;
+import io.hoogland.guildtools.models.domain.LootAllMessage;
 import io.hoogland.guildtools.models.repositories.LootAllMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

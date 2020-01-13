@@ -1,4 +1,4 @@
-package io.hoogland.guildtools.models;
+package io.hoogland.guildtools.models.domain;
 
 import io.hoogland.guildtools.models.converters.StringListConverter;
 import lombok.Data;

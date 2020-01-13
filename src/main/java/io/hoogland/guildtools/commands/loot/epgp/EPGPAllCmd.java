@@ -2,8 +2,8 @@ package io.hoogland.guildtools.commands.loot.epgp;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import io.hoogland.guildtools.models.EPGPStanding;
-import io.hoogland.guildtools.models.LootAllMessage;
+import io.hoogland.guildtools.models.domain.EPGPStanding;
+import io.hoogland.guildtools.models.domain.LootAllMessage;
 import io.hoogland.guildtools.models.repositories.EPGPStandingRepository;
 import io.hoogland.guildtools.models.repositories.LootAllMessageRepository;
 import io.hoogland.guildtools.models.repositories.LootImportRepository;

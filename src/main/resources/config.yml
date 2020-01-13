@@ -26,3 +26,11 @@ icons:
   shaman:
     icon: https://i.imgur.com/B8b19to.png
     color: 0070DE
+zones:
+  1000: Molten Core
+  1001: Onyxia
+  1002: Blackwing Lair
+  1003: Zul Gurub
+  1004: AQ20
+  1005: AQ40
+  1006: Naxxramas

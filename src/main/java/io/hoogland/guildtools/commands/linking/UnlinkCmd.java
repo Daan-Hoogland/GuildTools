@@ -3,7 +3,7 @@ package io.hoogland.guildtools.commands.linking;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import io.hoogland.guildtools.constants.CharacterConstants;
-import io.hoogland.guildtools.models.Character;
+import io.hoogland.guildtools.models.domain.Character;
 import io.hoogland.guildtools.models.repositories.CharacterRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
 import io.hoogland.guildtools.utils.EmbedUtils;

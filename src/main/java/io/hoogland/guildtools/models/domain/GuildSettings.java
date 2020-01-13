@@ -1,4 +1,4 @@
-package io.hoogland.guildtools.models;
+package io.hoogland.guildtools.models.domain;
 
 import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.utils.EmbedUtils;
@@ -6,13 +6,14 @@ import lombok.Data;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "guild_settings")
-public class GuildSettings {
+public class GuildSettings implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +28,9 @@ public class GuildSettings {
 
     private boolean dkp;
     private boolean epgp;
+
+    @OneToOne(mappedBy = "guildSettings", cascade = CascadeType.ALL)
+    private WarcraftLogSettings warcraftLogSettings;
 
     public void setDkp(boolean dkp) {
         this.epgp = !dkp;
