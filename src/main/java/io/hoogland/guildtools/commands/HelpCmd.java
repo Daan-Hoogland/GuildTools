@@ -65,11 +65,13 @@ public class HelpCmd extends Command {
                 builder.addField("Settings", "`" + prefix + "settings` - shows settings for the current Discord server.\n" +
                                 "`" + prefix +
                                 "settings setofficer [@role]` - sets @role as the officer role for the bot. This allows for editing loot values & approving applications.\n" +
-                                "`" + prefix + "settings setapplication [#channel]` - sets #channel as the channel the applications will be posted in.\n",
+                                "`" + prefix + "settings setapplication [#channel]` - sets #channel as the channel the applications will be posted in.\n" +
+                                "`" + prefix + "setup logs` - sets up the required variables to enable the `" + prefix +"logs` command.\n",
                         false);
             }
         }
-        builder.addField("Misc", "`" + prefix + "apply [role]` - sends an application to the officers of the server to be assigned role `role`.",
+        builder.addField("Misc", "`" + prefix + "apply [role]` - sends an application to the officers of the server to be assigned role `role`.\n" +
+                        "`" + prefix + "logs [guildname]` - shows the latest logs of the mentioned guild. Not including guild name will display the current guilds logs.",
                 false);
 
         builder.addField("", "For additional info contact **Dan**#3377 or **Bigdan**-Noggenfogger EU", false);

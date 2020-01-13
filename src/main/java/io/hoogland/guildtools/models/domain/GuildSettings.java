@@ -4,6 +4,7 @@ import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.utils.EmbedUtils;
 import lombok.Data;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -56,10 +57,18 @@ public class GuildSettings implements Serializable {
         } else if (this.dkp) {
             loot = "DKP";
         } else {
-            loot = "Not set";
+            loot = "*Not set*";
         }
         fields.add(new MessageEmbed.Field("Loot system", loot,
                 false));
+
+        if(warcraftLogSettings != null) {
+            fields.add(new MessageEmbed.Field("WarcraftLogs settings", "**Guild**: " + warcraftLogSettings.getGuild() + "\n" +
+                    "**Realm**: " + StringUtils.capitalize(warcraftLogSettings.getRealm().toLowerCase()) + "\n" +
+                    "**Region**: " + warcraftLogSettings.getRegion().name(), false));
+        } else {
+            fields.add(new MessageEmbed.Field("WarcraftLogs settings", "*Not configured*", false));
+        }
 
         return EmbedUtils.createEmbed("Guild settings", null, fields);
     }

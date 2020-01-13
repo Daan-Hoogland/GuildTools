@@ -70,7 +70,7 @@ public class SetupLogsCmd extends Command {
                         openedChannel -> {
                             MessageEmbed msg = EmbedUtils.createEmbed("WarcraftLogs Setup - Region",
                                     "This is the start of the WarcraftLogs setup. Please respond with your Region.\n\nRegions to choose from: `EU, US, KR, TW, CH`",
-                                    null, color, null, null, WarcraftLogsConstants.ICON_LINK);
+                                    null, color, "Respond with cancel to cancel setup", null, WarcraftLogsConstants.ICON_LINK);
                             openedChannel.sendMessage(msg).queue(success -> {
                                 waitForRegion(event, success, settings);
                             });
@@ -107,7 +107,7 @@ public class SetupLogsCmd extends Command {
                             log.warn("invalid enum selected");
                             e.getChannel().sendMessage(EmbedUtils.createErrorEmbed("WarcraftLogs Setup - Region",
                                     "This is the start of the WarcraftLogs setup. Please respond with your Region.\n\nRegions to choose from: `EU, US, KR, TW, CH`",
-                                    "Invalid region", null)).queue();
+                                    "Invalid region", "Respond with cancel to cancel setup")).queue();
                             waitForRegion(originalEvent, message, settings);
                         }
                     }
@@ -116,8 +116,8 @@ public class SetupLogsCmd extends Command {
 
     private void waitForGuildName(CommandEvent originalEvent, PrivateChannel channel, WarcraftLogSettings settings) {
         MessageEmbed msg = EmbedUtils
-                .createEmbed("WarcraftLogs Setup - Guild Name", "Respond with your guild name.", null, color, null, null,
-                        WarcraftLogsConstants.ICON_LINK);
+                .createEmbed("WarcraftLogs Setup - Guild Name", "Respond with your guild name.", null, color, "Respond with cancel to cancel setup",
+                        null, WarcraftLogsConstants.ICON_LINK);
         channel.sendMessage(msg).queue(success -> {
             waiter.waitForEvent(PrivateMessageReceivedEvent.class, event -> !event.getAuthor().isBot(),
                     e -> {
@@ -133,8 +133,8 @@ public class SetupLogsCmd extends Command {
 
     private void waitForServer(CommandEvent originalEvent, PrivateChannel channel, WarcraftLogSettings settings) {
         MessageEmbed msg = EmbedUtils
-                .createEmbed("WarcraftLogs Setup - Server Name", "Respond with the server your guild is located on.", null, color, null, null,
-                        WarcraftLogsConstants.ICON_LINK);
+                .createEmbed("WarcraftLogs Setup - Server Name", "Respond with the server your guild is located on.", null, color,
+                        "Respond with cancel to cancel setup", null, WarcraftLogsConstants.ICON_LINK);
         channel.sendMessage(msg).queue(success -> {
             waiter.waitForEvent(PrivateMessageReceivedEvent.class, event -> !event.getAuthor().isBot(),
                     e -> {
@@ -149,8 +149,8 @@ public class SetupLogsCmd extends Command {
     }
 
     private void waitForNumberOfLogs(CommandEvent originalEvent, PrivateChannel channel, WarcraftLogSettings settings) {
-        MessageEmbed msg = EmbedUtils.createEmbed("WarcraftLogs Setup - Testing configuration", EmojiConstants.EMOJI_LOADING, null, color, null, null,
-                WarcraftLogsConstants.ICON_LINK);
+        MessageEmbed msg = EmbedUtils.createEmbed("WarcraftLogs Setup - Testing configuration", EmojiConstants.EMOJI_LOADING, null, color,
+                "Respond with cancel to cancel setup", null, WarcraftLogsConstants.ICON_LINK);
         channel.sendMessage(msg).queue(success -> {
             try {
                 ResponseEntity<WarcraftLogsReport[]> response = restService.getRestTemplate()
