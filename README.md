@@ -21,3 +21,5 @@ Sets the prefix used for the application. Default: `!`
 Sets the secret Discord token for the bot.
 #### TOKENS_OWNER
 Sets the owner ID
+#### TOKENS_WARCRAFTLOGS
+Sets the WarcraftLogs API public key
