@@ -138,32 +138,32 @@ public class EPGPImportCmd extends Command {
     private void saveImportedStandings(List<EPGPStanding> importedStandings, long guildId) {
         List<EPGPStanding> toBeRemoved = new ArrayList<>();
         for (EPGPStanding importedStanding : importedStandings) {
-            if (!importedStanding.getGuildRank().equalsIgnoreCase("social")) {
-                if (importedStanding.getGp() != 1 && importedStanding.getEp() != 0) {
-                    Optional<EPGPStanding> optionalEPGPStanding = epgpStandingRepository
-                            .findByPlayerAndGuildId(importedStanding.getPlayer().toUpperCase(), guildId);
+            if (!importedStanding.getGuildRank().equalsIgnoreCase("social") && importedStanding.getEp() != 0) {
+                Optional<EPGPStanding> optionalEPGPStanding = epgpStandingRepository
+                        .findByPlayerAndGuildId(importedStanding.getPlayer().toUpperCase(), guildId);
 
-                    if (optionalEPGPStanding.isPresent()) {
-                        EPGPStanding newEPGPStanding = optionalEPGPStanding.get();
-                        newEPGPStanding.setPreviousEp(newEPGPStanding.getEp());
-                        newEPGPStanding.setPreviousGp(newEPGPStanding.getGp());
-                        newEPGPStanding.setPreviousPr(newEPGPStanding.getPr() == null ? BigDecimal.ZERO : newEPGPStanding.getPr());
+                if (optionalEPGPStanding.isPresent()) {
+                    log.debug(optionalEPGPStanding.get().getPlayer());
+                    EPGPStanding newEPGPStanding = optionalEPGPStanding.get();
+                    newEPGPStanding.setPreviousEp(newEPGPStanding.getEp());
+                    newEPGPStanding.setPreviousGp(newEPGPStanding.getGp());
+                    newEPGPStanding.setPreviousPr(newEPGPStanding.getPr() == null ? BigDecimal.ZERO : newEPGPStanding.getPr());
 
-                        newEPGPStanding.setEp(importedStanding.getEp());
-                        newEPGPStanding.setGp(importedStanding.getGp());
-                        newEPGPStanding.setPr(importedStanding.getPr());
-                        newEPGPStanding.setGuildRank(importedStanding.getGuildRank());
+                    newEPGPStanding.setEp(importedStanding.getEp());
+                    newEPGPStanding.setGp(importedStanding.getGp());
+                    newEPGPStanding.setPr(importedStanding.getPr());
+                    newEPGPStanding.setGuildRank(importedStanding.getGuildRank());
 
-                        epgpStandingRepository.saveAndFlush(newEPGPStanding);
-                    } else {
-                        importedStanding.setPlayer(importedStanding.getPlayer().toUpperCase());
-                        importedStanding.setClazz(importedStanding.getClazz().toUpperCase());
-                        importedStanding.setGuildId(guildId);
-                        importedStanding.setPreviousPr(BigDecimal.ZERO);
-                        importedStanding.setPreviousEp(0);
-                        importedStanding.setPreviousGp(0);
-                        epgpStandingRepository.saveAndFlush(importedStanding);
-                    }
+                    epgpStandingRepository.saveAndFlush(newEPGPStanding);
+                } else {
+                    log.debug(importedStanding.getPlayer());
+                    importedStanding.setPlayer(importedStanding.getPlayer().toUpperCase());
+                    importedStanding.setClazz(importedStanding.getClazz().toUpperCase());
+                    importedStanding.setGuildId(guildId);
+                    importedStanding.setPreviousPr(BigDecimal.ZERO);
+                    importedStanding.setPreviousEp(0);
+                    importedStanding.setPreviousGp(0);
+                    epgpStandingRepository.saveAndFlush(importedStanding);
                 }
             }
         }
