@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class UnlinkCmd extends Command {
@@ -44,10 +45,16 @@ public class UnlinkCmd extends Command {
                     errorList.add("`" + StringUtils.capitalize(characterName) + "`");
                 }
             }
+            event.getMessage().delete().queue();
             event.getChannel().sendMessage(EmbedUtils
                     .createEmbed(CharacterConstants.CHARACTER_UNLINK, errorList.isEmpty() ? CharacterConstants.CHARACTER_UNLINK_DESCRIPTION :
                                     CharacterConstants.CHARACTER_UNLINK_DESCRIPTION + CharacterConstants.CHARACTER_UNLINK_DESCRIPTION_ERROR,
-                            LinkUtils.getResultFields(confirmedList, errorList, false))).queue();
+                            LinkUtils.getResultFields(confirmedList, errorList, false))).queue(
+                                    success -> {
+                                        success.delete().queueAfter(20, TimeUnit.SECONDS);
+
+                                    }
+            );
         } else {
             log.debug("invalid");
         }

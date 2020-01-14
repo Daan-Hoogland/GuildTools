@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class WhoisCmd extends Command {
@@ -75,9 +76,12 @@ public class WhoisCmd extends Command {
                                 String.format(Constants.MENTION_USER, userId),
                                 String.format(Constants.MENTION_USER, userId));
 
+                event.getMessage().delete().queue();
                 event.getChannel().sendMessage(EmbedUtils
                         .createEmbed(title, description, LinkUtils.getCharacterFields(characterList, Constants.DATE_TIME_FORMATTER_DATE)))
-                        .queue();
+                        .queue( success -> {
+                            success.delete().queueAfter(1, TimeUnit.MINUTES);
+                        });
             } else {
                 log.debug("nothing found");
             }

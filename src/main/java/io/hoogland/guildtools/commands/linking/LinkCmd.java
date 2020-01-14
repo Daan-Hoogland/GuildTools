@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class LinkCmd extends Command {
@@ -58,10 +59,15 @@ public class LinkCmd extends Command {
                     confirmedList.add("`" + StringUtils.capitalize(characterName) + "`");
                 }
             }
+            event.getMessage().delete().queue();
             event.getChannel().sendMessage(EmbedUtils
                     .createEmbed(CharacterConstants.CHARACTER_LINK, errorList.isEmpty() ? CharacterConstants.CHARACTER_LINK_DESCRIPTION :
                                     CharacterConstants.CHARACTER_LINK_DESCRIPTION + CharacterConstants.CHARACTER_LINK_DESCRIPTION_ERROR,
-                            LinkUtils.getResultFields(confirmedList, errorList, true))).queue();
+                            LinkUtils.getResultFields(confirmedList, errorList, true))).queue(
+                    success -> {
+                        success.delete().queueAfter(20, TimeUnit.SECONDS);
+                    }
+            );
         } else {
             log.debug("invalid");
         }

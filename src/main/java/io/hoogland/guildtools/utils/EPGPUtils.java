@@ -57,7 +57,7 @@ public class EPGPUtils {
         EmbedBuilder embed = new EmbedBuilder();
 
         embed.setTitle(messageTitle);
-        embed.setThumbnail("https://i.imgur.com/5gzgA0B.png");
+        embed.setThumbnail("https://i.imgur.com/XBRSzXh.png");
         if (guildStanding.getTotalPages() > 1) {
             embed.setFooter("Page " + (page + 1) + "/" + guildStanding.getTotalPages() +
                             "\nTo see the next page, react with the arrow emojis. | Last updated: " + epgpImport.get().getCreatedDate().format(

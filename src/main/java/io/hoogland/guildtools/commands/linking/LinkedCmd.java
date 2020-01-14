@@ -11,6 +11,7 @@ import io.hoogland.guildtools.utils.EmbedUtils;
 import io.hoogland.guildtools.utils.LinkUtils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class LinkedCmd extends Command {
 
@@ -31,9 +32,14 @@ public class LinkedCmd extends Command {
         String description = String.format(CharacterConstants.CHARACTER_LINKED_DESCRIPTION, String.format(
                 Constants.MENTION_USER, event.getAuthor().getIdLong()));
 
+        event.getMessage().delete().queue();
         event.getChannel().sendMessage(EmbedUtils
                 .createEmbed(CharacterConstants.CHARACTER_LINKED, description,
                         LinkUtils.getCharacterFields(allCharacters, Constants.DATE_TIME_FORMATTER_DATE)))
-                .queue();
+                .queue(
+                        success -> {
+                            success.delete().queueAfter(1, TimeUnit.MINUTES);
+                        }
+                );
     }
 }
