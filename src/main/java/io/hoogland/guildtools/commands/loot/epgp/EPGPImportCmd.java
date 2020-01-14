@@ -143,7 +143,6 @@ public class EPGPImportCmd extends Command {
                         .findByPlayerAndGuildId(importedStanding.getPlayer().toUpperCase(), guildId);
 
                 if (optionalEPGPStanding.isPresent()) {
-                    log.debug(optionalEPGPStanding.get().getPlayer());
                     EPGPStanding newEPGPStanding = optionalEPGPStanding.get();
                     newEPGPStanding.setPreviousEp(newEPGPStanding.getEp());
                     newEPGPStanding.setPreviousGp(newEPGPStanding.getGp());
@@ -156,7 +155,6 @@ public class EPGPImportCmd extends Command {
 
                     epgpStandingRepository.saveAndFlush(newEPGPStanding);
                 } else {
-                    log.debug(importedStanding.getPlayer());
                     importedStanding.setPlayer(importedStanding.getPlayer().toUpperCase());
                     importedStanding.setClazz(importedStanding.getClazz().toUpperCase());
                     importedStanding.setGuildId(guildId);
