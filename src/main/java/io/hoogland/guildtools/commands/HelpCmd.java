@@ -70,8 +70,10 @@ public class HelpCmd extends Command {
                         false);
             }
         }
-        builder.addField("Misc", "`" + prefix + "apply [role]` - sends an application to the officers of the server to be assigned role `role`.\n" +
-                        "`" + prefix + "logs [guildname]` - shows the latest logs of the mentioned guild. Not including guild name will display the current guilds logs.",
+        builder.addField("Warcraft Logs", "`" + prefix + "logs` - shows the latest logs of the guild.\n" +
+                "`" + prefix + "logs [guildname]` - shows the latest logs of the mentioned guild.", false);
+
+        builder.addField("Misc", "`" + prefix + "apply [role]` - sends an application to the officers of the server to be assigned role `role`.",
                 false);
 
         builder.addField("", "For additional info contact **Dan**#3377 or **Bigdan**-Noggenfogger EU", false);

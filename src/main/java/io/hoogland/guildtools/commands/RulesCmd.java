@@ -2,6 +2,7 @@ package io.hoogland.guildtools.commands;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import io.hoogland.guildtools.App;
 import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.models.domain.ReactionRole;
 import io.hoogland.guildtools.models.domain.ReactionRoleMessage;
@@ -143,6 +144,7 @@ public class RulesCmd extends Command {
         embed.addField("",
                 "**Any updates to these rules will be announced in the " + String.format(Constants.MENTION_CHANNEL, "631952246657122306") +
                         " channel.**\n\n" +
+                        "**Missing trial/raider rank? Use the `" + App.client.getPrefix() + "apply [rank]` command to request it.**\n\n" +
                         "**To join the raid voice channel, and to sign up for the raids, you must agree with the rules. To do so, react with the ✅ emoji.**",
                 false);
 
