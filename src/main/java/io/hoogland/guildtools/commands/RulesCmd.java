@@ -150,7 +150,7 @@ public class RulesCmd extends Command {
 
         embed.setFooter("Last updated on 14-1-2020");
 
-        embed.setThumbnail("https://i.imgur.com/nytjlah.jpg");
+        embed.setThumbnail("https://discordemoji.com/assets/emoji/4882_gotem.png");
         return embed.build();
     }
 }
