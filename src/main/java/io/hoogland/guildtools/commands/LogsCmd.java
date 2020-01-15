@@ -91,7 +91,7 @@ public class LogsCmd extends Command {
                                 }
 
                                 MessageEmbed completedMsg = EmbedUtils.createEmbed(guildName + " logs",
-                                        String.format(Constants.LINK, "Click here to visit the calendar", settings.getCalendarUrl()), fields,
+                                        String.format(Constants.LINK, "Click here to visit the calendar", settings.getCalendarUrl(guildName)), fields,
                                         Constants.COLOR_OK, null, null, WarcraftLogsConstants.ICON_LINK);
                                 sendMsg.editMessage(completedMsg).queue();
                             } catch (HttpClientErrorException exception) {
