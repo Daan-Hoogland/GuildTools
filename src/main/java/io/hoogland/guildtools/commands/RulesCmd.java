@@ -63,7 +63,7 @@ public class RulesCmd extends Command {
 
     private MessageEmbed getRulesEmbed() {
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setTitle("<buying gf> Guild Rules");
+        embed.setTitle("<GOTEM> Guild Rules");
 
         embed.addField("Loot",
                 "EPGP is used to distribute most loot within the guild. People are awarded EP for attending raids and participating in guild events.\n\n" +

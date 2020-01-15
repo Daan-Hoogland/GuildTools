@@ -64,7 +64,12 @@ public class SetupLogsCmd extends Command {
             }
 
             if (isAllowed) {
-                WarcraftLogSettings settings = new WarcraftLogSettings();
+                WarcraftLogSettings settings;
+                if (optionalSettings.get().getWarcraftLogSettings() == null) {
+                    settings = new WarcraftLogSettings();
+                } else {
+                    settings = optionalSettings.get().getWarcraftLogSettings();
+                }
                 event.getMessage().delete().queue();
                 event.getAuthor().openPrivateChannel().queue(
                         openedChannel -> {
