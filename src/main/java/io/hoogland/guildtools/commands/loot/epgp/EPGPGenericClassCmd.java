@@ -35,7 +35,7 @@ public abstract class EPGPGenericClassCmd extends Command {
 
             MessageEmbed embed = EmbedUtils
                     .createEmbed(StringUtils.capitalize(this.name.toLowerCase()) + " | " + event.getGuild().getName(), null,
-                            EPGPUtils.getStandingFields(guildStanding, 0), (String) classInfo.get("color"), "",
+                            EPGPUtils.getStandingFields(guildStanding, 0), (String) classInfo.get("color"), "React with a class emote to view other classes.",
                             "https://i.imgur.com/pZf0MvC.png", (String) classInfo.get("icon"));
 
             event.getChannel().sendMessage(embed).queue(

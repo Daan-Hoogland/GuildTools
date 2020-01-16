@@ -57,7 +57,7 @@ public class LogsCmd extends Command {
                     guildName = event.getArgs();
                 }
 
-                MessageEmbed msg = EmbedUtils.createEmbed(settings.getGuild() + " logs",
+                MessageEmbed msg = EmbedUtils.createEmbed("<" + guildName + "> logs",
                         String.format(Constants.LINK, "Click here to visit the calendar", settings.getCalendarUrl(guildName)) + "\n\n" +
                                 EmojiConstants.EMOJI_LOADING, null, null, null, null, WarcraftLogsConstants.ICON_LINK);
                 event.getChannel().sendMessage(msg).queue(
@@ -90,7 +90,7 @@ public class LogsCmd extends Command {
                                     fields.add(new MessageEmbed.Field("No logs found.", "", false));
                                 }
 
-                                MessageEmbed completedMsg = EmbedUtils.createEmbed(guildName + " logs",
+                                MessageEmbed completedMsg = EmbedUtils.createEmbed("<" + guildName + "> logs",
                                         String.format(Constants.LINK, "Click here to visit the calendar", settings.getCalendarUrl(guildName)), fields,
                                         Constants.COLOR_OK, null, null, WarcraftLogsConstants.ICON_LINK);
                                 sendMsg.editMessage(completedMsg).queue();

@@ -34,9 +34,7 @@ public abstract class DKPGenericClassCmd extends Command {
             MessageEmbed embed = EmbedUtils
                     .createEmbed(StringUtils.capitalize(this.name.toLowerCase()) + " | " + event.getGuild().getName(), null,
                             DKPUtils.getStandingFields(guildStanding, 0), (String) classInfo.get("color"),
-                            DKPUtils.getFooter(
-                                    lootImportRepository.findTopByGuildIdAndTypeOrderByCreatedDateDesc(event.getGuild().getIdLong(), "dkp"),
-                                    guildStanding, 0),
+                            "React with a class emote to view other classes.",
                             "https://i.imgur.com/pZf0MvC.png", (String) classInfo.get("icon"));
 
             event.getChannel().sendMessage(embed).queue(
