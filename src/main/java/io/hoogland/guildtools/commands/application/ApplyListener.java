@@ -62,7 +62,7 @@ public class ApplyListener extends ListenerAdapter {
                                     success.removeReaction("❌").queue();
 
                                     StringBuilder descriptionBuilder = new StringBuilder();
-                                    descriptionBuilder.append("The user " + String.format(Constants.MENTION_USER, event.getMember().getIdLong()) +
+                                    descriptionBuilder.append("The user " + String.format(Constants.MENTION_USER, optionalRoleApplication.get().getUserId()) +
                                             " has been assigned the following role(s):\n");
                                     assignedRoles.forEach(requestedRole -> {
                                         descriptionBuilder.append(String.format(Constants.MENTION_ROLE, requestedRole.getIdLong()) + "\n");
