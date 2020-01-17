@@ -11,7 +11,7 @@
     </parent>
     <groupId>io.hoogland</groupId>
     <artifactId>GuildToolsSpring</artifactId>
-    <version>1.2.10</version>
+    <version>1.2.11</version>
     <build>
         <plugins>
             <plugin>
