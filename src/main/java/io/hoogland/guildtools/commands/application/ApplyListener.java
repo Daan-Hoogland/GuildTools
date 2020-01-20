@@ -63,7 +63,7 @@ public class ApplyListener extends ListenerAdapter {
 
                                     StringBuilder descriptionBuilder = new StringBuilder();
                                     descriptionBuilder.append("The user " + String.format(Constants.MENTION_USER, optionalRoleApplication.get().getUserId()) +
-                                            " has been assigned the following role(s):\n\nRequest handled by: \" + String.format(Constants.MENTION_USER, event.getMember().getIdLong())");
+                                            " has been assigned the following role(s):\n\nRequest handled by: " + String.format(Constants.MENTION_USER, event.getMember().getIdLong()));
                                     assignedRoles.forEach(requestedRole -> {
                                         descriptionBuilder.append(String.format(Constants.MENTION_ROLE, requestedRole.getIdLong()) + "\n");
                                     });
