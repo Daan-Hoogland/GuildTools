@@ -18,7 +18,6 @@ public class DeleteMessageListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageDelete(GuildMessageDeleteEvent event) {
-        log.debug("deleted msg " + event.getMessageId());
         reactionRoleMessageRepository.deleteAll(reactionRoleMessageRepository.findAllByMessageId(event.getMessageIdLong()));
         Optional<LootAllMessage> lootAllMsg = lootAllMessageRepository
                 .findByMessageIdAndAndChannelIdAndGuildId(event.getMessageIdLong(), event.getChannel().getIdLong(), event.getGuild().getIdLong());

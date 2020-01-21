@@ -75,11 +75,6 @@ public class PLogsListener extends ListenerAdapter {
                                             break;
                                     }
 
-                                    log.debug(characterName);
-                                    log.debug(metric);
-                                    log.debug(String.valueOf(oldZone));
-                                    log.debug(String.valueOf(zone));
-
                                     Optional<GuildSettings> optionalSettings = guildSettingsRepository.findByGuildId(event.getGuild().getIdLong());
                                     if (optionalSettings.isPresent()) {
 
