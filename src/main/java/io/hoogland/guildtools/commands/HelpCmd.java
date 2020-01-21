@@ -71,7 +71,8 @@ public class HelpCmd extends Command {
             }
         }
         builder.addField("Warcraft Logs", "`" + prefix + "logs` - shows the latest logs of the guild.\n" +
-                "`" + prefix + "logs [guildname]` - shows the latest logs of the mentioned guild.", false);
+                "`" + prefix + "logs [guildname]` - shows the latest logs of the mentioned guild.\n" +
+                "`" + prefix + "plogs [dps/hps] [character]` - shows the rankings of the mentioned character for the latest raid.", false);
 
         builder.addField("Misc", "`" + prefix + "apply [role]` - sends an application to the officers of the server to be assigned role `role`.",
                 false);
