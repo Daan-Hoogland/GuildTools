@@ -40,9 +40,9 @@ public class PLogsListener extends ListenerAdapter {
                         message -> {
                             if (message.getAuthor().getIdLong() == App.jda.getSelfUser().getIdLong()) {
                                 MessageEmbed embed = message.getEmbeds().get(0);
-                                if (embed.getTitle().startsWith("Rankings for ")) {
-                                    String characterName = embed.getTitle().replace("Rankings for ", "");
+                                if (embed.getTitle().contains("rankings for ")) {
                                     String metric = embed.getFooter().getText().substring(embed.getFooter().getText().lastIndexOf(": ") + 2);
+                                    String characterName = embed.getTitle().replace(metric + " rankings for ", "");
 
                                     int oldZone = Integer.parseInt(
                                             embed.getFooter().getText().substring(embed.getFooter().getText().indexOf("Zone: "))
@@ -111,7 +111,7 @@ public class PLogsListener extends ListenerAdapter {
                                                 .getConfig().get("zones");
 
                                         MessageEmbed editedMsg = EmbedUtils
-                                                .createEmbed("Rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
+                                                .createEmbed(metric + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
                                                         String.format(Constants.LINK, "Click here to visit the rankings page",
                                                                 WarcraftLogsConstants.BASE_URL +
                                                                         String.format(WarcraftLogsConstants.WARCRAFTLOGS_RANKINGS, Region.EU,

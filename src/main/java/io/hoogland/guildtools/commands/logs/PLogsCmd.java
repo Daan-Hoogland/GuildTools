@@ -52,7 +52,7 @@ public class PLogsCmd extends Command {
                 if (optionalSettings.isPresent()) {
                     if (optionalSettings.get().getWarcraftLogSettings() != null &&
                             optionalSettings.get().getWarcraftLogSettings().getRealm() != null) {
-                        MessageEmbed msg = EmbedUtils.createEmbed("Rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
+                        MessageEmbed msg = EmbedUtils.createEmbed(metric + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
                                 String.format(Constants.LINK, "Click here to visit the rankings page",
                                         String.format(WarcraftLogsConstants.WARCRAFTLOGS_RANKINGS,
                                                 optionalSettings.get().getWarcraftLogSettings().getRegion(),
@@ -95,7 +95,7 @@ public class PLogsCmd extends Command {
                                     int zone = WarcraftLogsUtils.getZoneForBoss(mainRankings.get(0).getEncounterName());
 
                                     MessageEmbed editedMsg = EmbedUtils
-                                            .createEmbed("Rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
+                                            .createEmbed(metric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
                                                     String.format(Constants.LINK, "Click here to visit the rankings page",
                                                             WarcraftLogsConstants.BASE_URL +
                                                                     String.format(WarcraftLogsConstants.WARCRAFTLOGS_RANKINGS, Region.EU,
