@@ -1,5 +1,8 @@
 package io.hoogland.guildtools.commands.logs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import io.hoogland.guildtools.App;
@@ -17,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +49,15 @@ public class PLogsCmd extends Command {
                 event.getChannel().sendMessage(errorEmbed).queue();
                 log.debug("too short");
             } else {
-                Metric metric = Metric.valueOf(cmdArgs[0].toUpperCase());
+                Metric metric = Metric.DPS;
+                try {
+                    metric = Metric.valueOf(cmdArgs[0].toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    MessageEmbed invalidMetricEmbed = EmbedUtils.createErrorEmbed("Invalid command", "Invalid metric. Choose either DPS or HPS.", "Invalid metric (DPS/HPS)", null);
+                    event.getMessage().delete().queue();
+                    event.getChannel().sendMessage(invalidMetricEmbed).queue();
+                    return;
+                }
                 String characterName = cmdArgs[1];
 
                 Optional<GuildSettings> optionalSettings = guildSettingsRepository.findByGuildId(event.getGuild().getIdLong());
@@ -58,12 +70,15 @@ public class PLogsCmd extends Command {
                                                 optionalSettings.get().getWarcraftLogSettings().getRegion(),
                                                 optionalSettings.get().getWarcraftLogSettings().getRealm(), characterName)) + "\n\n" +
                                         EmojiConstants.EMOJI_LOADING, null, null, null, null, WarcraftLogsConstants.ICON_LINK);
+                        Metric finalMetric = metric;
                         event.getChannel().sendMessage(msg).queue(
                                 sendMsg -> {
-                                    ResponseEntity<WarcraftLogsRanking[]> response = restService.getRestTemplate()
+                                    try {
+
+                                        ResponseEntity<WarcraftLogsRanking[]> response = restService.getRestTemplate()
                                             .getForEntity(
                                                     WarcraftLogsUtils.buildRankingsUrl(characterName, optionalSettings.get().getWarcraftLogSettings().getRealm(), Region.EU,
-                                                            metric, token), WarcraftLogsRanking[].class);
+                                                            finalMetric, token), WarcraftLogsRanking[].class);
 
                                     Map<String, List<WarcraftLogsRanking>> rankingMap = new HashMap<>();
                                     for (WarcraftLogsRanking ranking : response.getBody()) {
@@ -95,13 +110,13 @@ public class PLogsCmd extends Command {
                                     int zone = WarcraftLogsUtils.getZoneForBoss(mainRankings.get(0).getEncounterName());
 
                                     MessageEmbed editedMsg = EmbedUtils
-                                            .createEmbed(metric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
+                                            .createEmbed(finalMetric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
                                                     String.format(Constants.LINK, "Click here to visit the rankings page",
                                                             WarcraftLogsConstants.BASE_URL +
                                                                     String.format(WarcraftLogsConstants.WARCRAFTLOGS_RANKINGS, Region.EU,
                                                                             optionalSettings.get().getWarcraftLogSettings().getRealm(),
                                                                             characterName)), WarcraftLogsUtils.getFieldsForRankings(mainRankings), null,
-                                                    "Zone: " + zone + " | Metric: " + metric, null,
+                                                    "Zone: " + zone + " | Metric: " + finalMetric, null,
                                                     zoneMap.get(zone).get("image"));
                                     sendMsg.editMessage(editedMsg).queue(
                                             success -> {
@@ -110,6 +125,21 @@ public class PLogsCmd extends Command {
                                                 });
                                             }
                                     );
+                                    } catch (HttpClientErrorException exception) {
+                                        ObjectMapper mapper = new ObjectMapper();
+                                        try {
+                                            JsonNode actualObj = mapper
+                                                    .readTree(exception.getMessage().substring(exception.getMessage().indexOf("{"), exception.getMessage().indexOf("}") + 1));
+
+                                            MessageEmbed successEmbed = EmbedUtils.createEmbed(finalMetric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
+                                                    "Error while searching for rankings.\n\n⚠ " + exception.getRawStatusCode() + " - " +
+                                                            actualObj.findValue("error").asText(), null, Constants.COLOR_NOT_OK, null, null,
+                                                    "https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/favicon.png");
+                                            sendMsg.editMessage(successEmbed).queue();
+                                        } catch (JsonProcessingException e) {
+                                            log.error("Error parsing JSON response", e);
+                                        }
+                                    }
                                 });
                     } else {
                         MessageEmbed error = EmbedUtils
