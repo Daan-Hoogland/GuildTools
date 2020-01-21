@@ -77,7 +77,6 @@ public class PLogsListener extends ListenerAdapter {
 
                                     Optional<GuildSettings> optionalSettings = guildSettingsRepository.findByGuildId(event.getGuild().getIdLong());
                                     if (optionalSettings.isPresent()) {
-
                                         ResponseEntity<WarcraftLogsRanking[]> response = restService.getRestTemplate()
                                                 .getForEntity(
                                                         WarcraftLogsUtils.buildRankingsUrl(characterName,
