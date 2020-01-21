@@ -27,10 +27,20 @@ icons:
     icon: https://i.imgur.com/B8b19to.png
     color: 0070DE
 zones:
-  1000: Molten Core
-  1001: Onyxia
-  1002: Blackwing Lair
-  1003: Zul Gurub
-  1004: AQ20
-  1005: AQ40
-  1006: Naxxramas
+  1000:
+    name: Molten Core
+    image: https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/zones/zone-1000-small.jpg
+  1001:
+    name: Onyxia
+    image: https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/zones/zone-1001-small.jpg
+  1002:
+    name: Blackwing Lair
+    image: https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/zones/zone-1002-small.jpg
+  1003:
+    name: Zul Gurub
+  1004:
+    name: AQ20
+  1005:
+    name: AQ40
+  1006:
+    name: Naxxramas

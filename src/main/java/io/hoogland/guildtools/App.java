@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import io.hoogland.guildtools.commands.HelpCmd;
-import io.hoogland.guildtools.commands.LogsCmd;
 import io.hoogland.guildtools.commands.RulesCmd;
 import io.hoogland.guildtools.commands.ShutdownCmd;
 import io.hoogland.guildtools.commands.application.ApplyCmd;
@@ -13,6 +12,9 @@ import io.hoogland.guildtools.commands.linking.LinkCmd;
 import io.hoogland.guildtools.commands.linking.LinkedCmd;
 import io.hoogland.guildtools.commands.linking.UnlinkCmd;
 import io.hoogland.guildtools.commands.linking.WhoisCmd;
+import io.hoogland.guildtools.commands.logs.LogsCmd;
+import io.hoogland.guildtools.commands.logs.PLogsCmd;
+import io.hoogland.guildtools.commands.logs.PLogsListener;
 import io.hoogland.guildtools.commands.loot.LootAllReactionListener;
 import io.hoogland.guildtools.commands.loot.LootClassReactionListener;
 import io.hoogland.guildtools.commands.loot.dkp.DKPCmd;
@@ -21,7 +23,6 @@ import io.hoogland.guildtools.commands.rolereaction.RoleReactionCmd;
 import io.hoogland.guildtools.commands.rolereaction.RoleReactionListener;
 import io.hoogland.guildtools.commands.settings.SettingsCmd;
 import io.hoogland.guildtools.commands.settings.SetupCmd;
-import io.hoogland.guildtools.commands.settings.SetupLogsCmd;
 import io.hoogland.guildtools.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
@@ -67,7 +68,8 @@ public class App implements CommandLineRunner {
         builder.setOwnerId(ownerId);
         builder.setActivity(Activity.listening(prefix + "help"));
         builder.addCommands(new RoleReactionCmd(waiter), new DKPCmd(waiter), new EPGPCmd(), new SettingsCmd(), new LinkCmd(), new UnlinkCmd(),
-                new LinkedCmd(), new WhoisCmd(), new ShutdownCmd(), new ApplyCmd(), new RulesCmd(), new HelpCmd(), new SetupCmd(waiter, warcraftlogsToken), new LogsCmd(warcraftlogsToken));
+                new LinkedCmd(), new WhoisCmd(), new ShutdownCmd(), new ApplyCmd(), new RulesCmd(), new HelpCmd(),
+                new SetupCmd(waiter, warcraftlogsToken), new LogsCmd(warcraftlogsToken), new PLogsCmd(warcraftlogsToken));
 
         client = builder.build();
 
@@ -76,6 +78,7 @@ public class App implements CommandLineRunner {
                 .addEventListeners(new RoleReactionListener())
                 .addEventListeners(new LootAllReactionListener())
                 .addEventListeners(new LootClassReactionListener())
+                .addEventListeners(new PLogsListener(warcraftlogsToken))
                 .addEventListeners(new ApplyListener())
                 .addEventListeners(waiter)
                 .build();

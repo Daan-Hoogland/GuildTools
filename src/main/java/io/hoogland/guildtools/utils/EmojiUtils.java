@@ -3,6 +3,7 @@ package io.hoogland.guildtools.utils;
 import com.vdurmont.emoji.EmojiParser;
 import io.hoogland.guildtools.constants.DKPConstants;
 import io.hoogland.guildtools.constants.EmojiConstants;
+import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.math.BigDecimal;
@@ -61,6 +62,10 @@ public class EmojiUtils {
 
     public static String discordEmojiToUnicode(String discordEmoji) {
         return discordEmoji.substring(2, discordEmoji.length() - 1);
+    }
+
+    public static String emoteToDiscordEmoji(Emote emote) {
+        return "<:" + emote.getName() + ":" + emote.getIdLong() + ">";
     }
 
     public static List<String> getAllClassEmojisButOne(String clazz) {

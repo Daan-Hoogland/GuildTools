@@ -3,10 +3,7 @@ package io.hoogland.guildtools.commands.settings;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.hoogland.guildtools.models.repositories.GuildSettingsRepository;
-import io.hoogland.guildtools.models.repositories.WarcraftlogSettingsRepository;
-import io.hoogland.guildtools.services.RestService;
-import io.hoogland.guildtools.utils.BeanUtils;
+import io.hoogland.guildtools.commands.logs.SetupLogsCmd;
 
 public class SetupCmd extends Command {
 

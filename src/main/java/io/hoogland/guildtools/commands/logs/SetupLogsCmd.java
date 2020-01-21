@@ -1,4 +1,4 @@
-package io.hoogland.guildtools.commands.settings;
+package io.hoogland.guildtools.commands.logs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

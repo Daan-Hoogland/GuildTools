@@ -1,4 +1,4 @@
-package io.hoogland.guildtools.commands;
+package io.hoogland.guildtools.commands.logs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -68,7 +68,7 @@ public class LogsCmd extends Command {
 
                                 List<MessageEmbed.Field> fields = new ArrayList<>();
 
-                                HashMap<Integer, String> zoneMap = (HashMap<Integer, String>) ConfigUtils.getConfig().get("zones");
+                                HashMap<Integer, HashMap<String, String>> zoneMap = (HashMap<Integer, HashMap<String, String>>) ConfigUtils.getConfig().get("zones");
 
                                 WarcraftLogsReport[] reports = response.getBody();
                                 StringBuilder reportNames = new StringBuilder();
@@ -81,7 +81,7 @@ public class LogsCmd extends Command {
                                         dates.append(
                                                 LocalDateTime.ofInstant(Instant.ofEpochMilli(report.getStart()), ZoneId.systemDefault())
                                                         .format(Constants.DATE_TIME_FORMATTER_DATE)).append("\n");
-                                        zoneNames.append(zoneMap.get(report.getZone())).append("\n");
+                                        zoneNames.append(zoneMap.get(report.getZone()).get("name")).append("\n");
                                     }
                                     fields.add(new MessageEmbed.Field("Reports", reportNames.toString(), true));
                                     fields.add(new MessageEmbed.Field("Date", dates.toString(), true));

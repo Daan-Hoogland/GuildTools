@@ -13,6 +13,6 @@ public class WarcraftLogsReport {
     private int zone;
 
     public String getUrl() {
-        return WarcraftLogsConstants.WARCRAFTLOGS_API_URL + String.format(WarcraftLogsConstants.WARCRAFTLOGS_REPORT, this.id);
+        return WarcraftLogsConstants.BASE_URL + String.format(WarcraftLogsConstants.WARCRAFTLOGS_REPORT, this.id);
     }
 }
