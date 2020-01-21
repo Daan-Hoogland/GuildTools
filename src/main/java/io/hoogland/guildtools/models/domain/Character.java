@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "characters", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "guildId"})})
+@Table(name = "character", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "guildId"})})
 public class Character extends AuditedEntity {
 
     @Id

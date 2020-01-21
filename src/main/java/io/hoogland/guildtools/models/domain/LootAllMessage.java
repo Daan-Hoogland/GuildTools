@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "dkp_all_messages")
+@Table(name = "loot_all_message")
 public class LootAllMessage extends AuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
