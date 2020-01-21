@@ -3,6 +3,7 @@ package io.hoogland.guildtools;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import io.hoogland.guildtools.commands.DeleteMessageListener;
 import io.hoogland.guildtools.commands.HelpCmd;
 import io.hoogland.guildtools.commands.RulesCmd;
 import io.hoogland.guildtools.commands.ShutdownCmd;
@@ -80,6 +81,7 @@ public class App implements CommandLineRunner {
                 .addEventListeners(new LootClassReactionListener())
                 .addEventListeners(new PLogsListener(warcraftlogsToken))
                 .addEventListeners(new ApplyListener())
+                .addEventListeners(new DeleteMessageListener())
                 .addEventListeners(waiter)
                 .build();
     }
