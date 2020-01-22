@@ -44,7 +44,9 @@ public class PLogsCmd extends Command {
         if (!event.getArgs().isBlank()) {
             String[] cmdArgs = event.getArgs().split(" ");
             if (cmdArgs.length < 2) {
-                MessageEmbed errorEmbed = EmbedUtils.createErrorEmbed("Invalid command", "Missing required argument.\n\nExample usage: `" + App.client.getPrefix() + "plogs [dps/hps] [character]`", "Missing argument", null);
+                MessageEmbed errorEmbed = EmbedUtils.createErrorEmbed("Invalid command",
+                        "Missing required argument.\n\nExample usage: `" + App.client.getPrefix() + "plogs [dps/hps] [character]`",
+                        "Missing argument", null);
                 event.getMessage().delete().queue();
                 event.getChannel().sendMessage(errorEmbed).queue();
                 log.debug("too short");
@@ -53,7 +55,8 @@ public class PLogsCmd extends Command {
                 try {
                     metric = Metric.valueOf(cmdArgs[0].toUpperCase());
                 } catch (IllegalArgumentException e) {
-                    MessageEmbed invalidMetricEmbed = EmbedUtils.createErrorEmbed("Invalid command", "Invalid metric. Choose either DPS or HPS.", "Invalid metric (DPS/HPS)", null);
+                    MessageEmbed invalidMetricEmbed = EmbedUtils
+                            .createErrorEmbed("Invalid command", "Invalid metric. Choose either DPS or HPS.", "Invalid metric (DPS/HPS)", null);
                     event.getMessage().delete().queue();
                     event.getChannel().sendMessage(invalidMetricEmbed).queue();
                     return;
@@ -76,62 +79,74 @@ public class PLogsCmd extends Command {
                                     try {
 
                                         ResponseEntity<WarcraftLogsRanking[]> response = restService.getRestTemplate()
-                                            .getForEntity(
-                                                    WarcraftLogsUtils.buildRankingsUrl(characterName, optionalSettings.get().getWarcraftLogSettings().getRealm(), Region.EU,
-                                                            finalMetric, token), WarcraftLogsRanking[].class);
+                                                .getForEntity(
+                                                        WarcraftLogsUtils.buildRankingsUrl(characterName,
+                                                                optionalSettings.get().getWarcraftLogSettings().getRealm(), Region.EU,
+                                                                finalMetric, token), WarcraftLogsRanking[].class);
 
-                                    Map<String, List<WarcraftLogsRanking>> rankingMap = new HashMap<>();
-                                    for (WarcraftLogsRanking ranking : response.getBody()) {
-                                        if (rankingMap.containsKey(ranking.getSpec())) {
-                                            rankingMap.get(ranking.getSpec()).add(ranking);
-                                        } else {
-                                            List<WarcraftLogsRanking> tempList = new ArrayList<>();
-                                            tempList.add(ranking);
-                                            rankingMap.put(ranking.getSpec(), tempList);
-                                        }
-                                    }
-
-                                    List<WarcraftLogsRanking> mainRankings = null;
-                                    String role = null;
-                                    int maxLen = 0;
-                                    for (Map.Entry<String, List<WarcraftLogsRanking>> e : rankingMap.entrySet()) {
-                                        int len = e.getValue().size();
-
-                                        if (role == null || len > maxLen) {
-                                            role = e.getKey();
-                                            mainRankings = e.getValue();
-                                            maxLen = len;
-                                        }
-                                    }
-
-                                    HashMap<Integer, HashMap<String, String>> zoneMap = (HashMap<Integer, HashMap<String, String>>) ConfigUtils
-                                            .getConfig().get("zones");
-
-                                    int zone = WarcraftLogsUtils.getZoneForBoss(mainRankings.get(0).getEncounterName());
-
-                                    MessageEmbed editedMsg = EmbedUtils
-                                            .createEmbed(finalMetric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
-                                                    String.format(Constants.LINK, "Click here to visit the rankings page",
-                                                            WarcraftLogsConstants.BASE_URL +
-                                                                    String.format(WarcraftLogsConstants.WARCRAFTLOGS_RANKINGS, Region.EU,
-                                                                            optionalSettings.get().getWarcraftLogSettings().getRealm(),
-                                                                            characterName)), WarcraftLogsUtils.getFieldsForRankings(mainRankings), null,
-                                                    "Zone: " + zone + " | Metric: " + finalMetric, null,
-                                                    zoneMap.get(zone).get("image"));
-                                    sendMsg.editMessage(editedMsg).queue(
-                                            success -> {
-                                                WarcraftLogsUtils.getEmojisForZone(zone).forEach(emoji -> {
-                                                    success.addReaction(EmojiUtils.discordEmojiToUnicode(emoji)).queue();
-                                                });
+                                        Map<String, List<WarcraftLogsRanking>> rankingMap = new HashMap<>();
+                                        for (WarcraftLogsRanking ranking : response.getBody()) {
+                                            if (rankingMap.containsKey(ranking.getSpec())) {
+                                                rankingMap.get(ranking.getSpec()).add(ranking);
+                                            } else {
+                                                List<WarcraftLogsRanking> tempList = new ArrayList<>();
+                                                tempList.add(ranking);
+                                                rankingMap.put(ranking.getSpec(), tempList);
                                             }
-                                    );
+                                        }
+
+                                        List<WarcraftLogsRanking> mainRankings = null;
+                                        String role = null;
+                                        int maxLen = 0;
+                                        for (Map.Entry<String, List<WarcraftLogsRanking>> e : rankingMap.entrySet()) {
+                                            int len = e.getValue().size();
+
+                                            if (role == null || len > maxLen) {
+                                                role = e.getKey();
+                                                mainRankings = e.getValue();
+                                                maxLen = len;
+                                            }
+                                        }
+
+                                        HashMap<Integer, HashMap<String, String>> zoneMap = (HashMap<Integer, HashMap<String, String>>) ConfigUtils
+                                                .getConfig().get("zones");
+
+                                        int zone;
+                                        if(mainRankings == null) {
+                                            zone = 0;
+                                        } else {
+                                            zone = WarcraftLogsUtils.getZoneForBoss(mainRankings.get(0).getEncounterName());
+                                        }
+
+                                        MessageEmbed editedMsg = EmbedUtils
+                                                .createEmbed(
+                                                        finalMetric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
+                                                        String.format(Constants.LINK, "Click here to visit the rankings page",
+                                                                WarcraftLogsConstants.BASE_URL +
+                                                                        String.format(WarcraftLogsConstants.WARCRAFTLOGS_RANKINGS, Region.EU,
+                                                                                optionalSettings.get().getWarcraftLogSettings().getRealm(),
+                                                                                characterName)), WarcraftLogsUtils.getFieldsForRankings(mainRankings),
+                                                        null,
+                                                        "Zone: " + zone + " | Metric: " + finalMetric, null,
+                                                        (zone == 0 ? WarcraftLogsConstants.ICON_LINK : zoneMap.get(zone).get("image")));
+                                        sendMsg.editMessage(editedMsg).queue(
+                                                success -> {
+                                                    if(zone != 0) {
+                                                        WarcraftLogsUtils.getEmojisForZone(zone).forEach(emoji -> {
+                                                            success.addReaction(EmojiUtils.discordEmojiToUnicode(emoji)).queue();
+                                                        });
+                                                    }
+                                                }
+                                        );
                                     } catch (HttpClientErrorException exception) {
                                         ObjectMapper mapper = new ObjectMapper();
                                         try {
                                             JsonNode actualObj = mapper
-                                                    .readTree(exception.getMessage().substring(exception.getMessage().indexOf("{"), exception.getMessage().indexOf("}") + 1));
+                                                    .readTree(exception.getMessage()
+                                                            .substring(exception.getMessage().indexOf("{"), exception.getMessage().indexOf("}") + 1));
 
-                                            MessageEmbed successEmbed = EmbedUtils.createEmbed(finalMetric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
+                                            MessageEmbed successEmbed = EmbedUtils.createEmbed(
+                                                    finalMetric.name() + " rankings for " + StringUtils.capitalize(characterName.toLowerCase()),
                                                     "Error while searching for rankings.\n\n⚠ " + exception.getRawStatusCode() + " - " +
                                                             actualObj.findValue("error").asText(), null, Constants.COLOR_NOT_OK, null, null,
                                                     "https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/favicon.png");
