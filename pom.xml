@@ -90,7 +90,7 @@
     </repositories>
 
     <properties>
-        <jda-version>4.0.0_79</jda-version>
+        <jda-version>4.1.0_100</jda-version>
         <jda-utilities-version>3.0.2</jda-utilities-version>
         <hibernate-version>5.4.6.Final</hibernate-version>
         <postgresql-version>42.2.8</postgresql-version>
