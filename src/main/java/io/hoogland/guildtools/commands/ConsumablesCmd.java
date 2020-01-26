@@ -59,6 +59,7 @@ public class ConsumablesCmd extends Command {
                     break;
                 case "ROGUE":
                     title = "Rogue";
+                    fields.add(getMeleeConsumables());
                     fields.add(getRogueConsumables());
                     break;
                 case "PALADIN":
