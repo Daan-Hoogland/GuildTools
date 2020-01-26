@@ -110,7 +110,9 @@ public class EPGPImportCmd extends Command {
                                         add(new MessageEmbed.Field("Author", String.format(Constants.MENTION_USER, savedImport.getUploader()), true));
                                     }};
                                     processingMessage.editMessage(EmbeddedUtils
-                                            .buildGenericEmbed(DKPConstants.DKP_IMPORT_TITLE, DKPConstants.DKP_IMPORT_DESCRIPTION, fields, null,
+                                            .buildGenericEmbed("Imported EPGP values",
+                                                    "EPGP values have been imported. New values are now available through the EPGP commands.", fields,
+                                                    null,
                                                     "64a266")).queue(
                                             success -> {
                                                 success.delete().queueAfter(20, TimeUnit.SECONDS);
