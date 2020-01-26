@@ -3,10 +3,7 @@ package io.hoogland.guildtools;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.hoogland.guildtools.commands.DeleteMessageListener;
-import io.hoogland.guildtools.commands.HelpCmd;
-import io.hoogland.guildtools.commands.RulesCmd;
-import io.hoogland.guildtools.commands.ShutdownCmd;
+import io.hoogland.guildtools.commands.*;
 import io.hoogland.guildtools.commands.application.ApplyCmd;
 import io.hoogland.guildtools.commands.application.ApplyListener;
 import io.hoogland.guildtools.commands.linking.LinkCmd;
@@ -70,7 +67,7 @@ public class App implements CommandLineRunner {
         builder.setActivity(Activity.listening(prefix + "help"));
         builder.addCommands(new RoleReactionCmd(waiter), new DKPCmd(waiter), new EPGPCmd(), new SettingsCmd(), new LinkCmd(), new UnlinkCmd(),
                 new LinkedCmd(), new WhoisCmd(), new ShutdownCmd(), new ApplyCmd(), new RulesCmd(), new HelpCmd(),
-                new SetupCmd(waiter, warcraftlogsToken), new LogsCmd(warcraftlogsToken), new PLogsCmd(warcraftlogsToken));
+                new SetupCmd(waiter, warcraftlogsToken), new LogsCmd(warcraftlogsToken), new PLogsCmd(warcraftlogsToken), new ConsumablesCmd());
 
         client = builder.build();
 

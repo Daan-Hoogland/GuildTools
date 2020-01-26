@@ -10,6 +10,7 @@ import io.hoogland.guildtools.utils.RoleUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 
+import java.awt.*;
 import java.util.Optional;
 
 @Slf4j
@@ -42,7 +43,8 @@ public class HelpCmd extends Command {
 
         builder.setTitle(event.getSelfUser().getName() + " commands");
         builder.setDescription("Below all the commands along with sub-commands can be found.");
-
+        builder.setThumbnail("https://discordemoji.com/assets/emoji/4882_gotem.png");
+        builder.setColor(Color.decode("#ffdc5d"));
         if (dkp || both) {
             builder.addField("DKP", "`" + prefix + "dkp` - sends the dkp standings for the characters linked to user.\n" +
                     "`" + prefix + "dkp all` - displays all DKP standings for characters in the current server.\n" +
@@ -66,7 +68,7 @@ public class HelpCmd extends Command {
                                 "`" + prefix +
                                 "settings setofficer [@role]` - sets @role as the officer role for the bot. This allows for editing loot values & approving applications.\n" +
                                 "`" + prefix + "settings setapplication [#channel]` - sets #channel as the channel the applications will be posted in.\n" +
-                                "`" + prefix + "setup logs` - sets up the required variables to enable the `" + prefix +"logs` command.\n",
+                                "`" + prefix + "setup logs` - sets up the required variables to enable the `" + prefix + "logs` command.\n",
                         false);
             }
         }
@@ -74,7 +76,9 @@ public class HelpCmd extends Command {
                 "`" + prefix + "logs [guildname]` - shows the latest logs of the mentioned guild.\n" +
                 "`" + prefix + "plogs [dps/hps] [character]` - shows the rankings of the mentioned character for the latest raid.", false);
 
-        builder.addField("Misc", "`" + prefix + "apply [role]` - sends an application to the officers of the server to be assigned role `role`.",
+        builder.addField("Misc", "`" + prefix + "apply [role]` - sends an application to the officers of the server to be assigned role `role`.\n" +
+                        "`" + prefix +
+                        "consumables [class]` - shows all the required consumables for a raid for the given class (all classes if left empty).",
                 false);
 
         builder.addField("", "For additional info contact **Dan**#3377 or **Bigdan**-Noggenfogger EU", false);

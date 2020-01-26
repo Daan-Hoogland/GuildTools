@@ -177,6 +177,12 @@ public class PLogsCmd extends Command {
                 }
                 event.getMessage().delete().queue();
             }
+        } else {
+            MessageEmbed errorEmbed = EmbedUtils.createErrorEmbed("Invalid command",
+                    "Missing required argument.\n\nExample usage: `" + App.client.getPrefix() + "plogs [dps/hps] [character]`",
+                    "Missing argument", null);
+            event.getMessage().delete().queue();
+            event.getChannel().sendMessage(errorEmbed).queue();
         }
     }
 }
