@@ -133,10 +133,10 @@ public class ConsumablesCmd extends Command {
 
     private MessageEmbed.Field getGenericConsumables() {
         StringBuilder builder = new StringBuilder();
-        builder.append("The following consumables are required for **everyone**").append("\n");
-        builder.append(String.format(Constants.LINK, "Greater Shadow Protection Potion (Majordomo)", "https://classicdb.ch/?item=13459"))
+        builder.append("The following consumables are **required** for **everyone**").append("\n");
+        builder.append(String.format(Constants.LINK, "Shadow Protection Potion (Nefarian, Majordomo)", "https://classicdb.ch/?item=6048"))
                 .append("\n");
-        builder.append(String.format(Constants.LINK, "Greater Fire Protection Potion", "https://classicdb.ch/?item=13457"));
+        builder.append(String.format(Constants.LINK, "Greater Fire Protection Potion (Vael, Firemaw)", "https://classicdb.ch/?item=13457"));
         return new MessageEmbed.Field("Generic Consumables", builder.toString(), false);
     }
 
@@ -174,8 +174,16 @@ public class ConsumablesCmd extends Command {
         StringBuilder builder = new StringBuilder();
         builder.append("The following consumables are required for **all melee DPS classes**").append("\n");
         builder.append(String.format(Constants.LINK, "Elixir of the Mongoose", "https://classicdb.ch/?item=13452")).append("\n");
-        builder.append(String.format(Constants.LINK, "Elixir of Giants", "https://classicdb.ch/?item=9206")).append("\n");
-        builder.append("_" + String.format(Constants.LINK, "Juju Power", "https://classicdb.ch/?item=12451") + "_");
+        builder.append(String.format(Constants.LINK, "Juju Power", "https://classicdb.ch/?item=12451")).append("/")
+                .append(String.format(Constants.LINK, "Elixir of Giants", "https://classicdb.ch/?item=9206")).append("\n");
+        builder.append(String.format(Constants.LINK, "Winterfall Firewater", "https://classicdb.ch/?item=12820")).append("/")
+                .append(String.format(Constants.LINK, "Juju Might", "https://classicdb.ch/?item=12460")).append("\n");
+        builder.append(String.format(Constants.LINK, "Free Action Potion", "https://classicdb.ch/?item=5634")).append("\n\n");
+        builder.append("_" + String.format(Constants.LINK, "Ground Scorpok Assay ", "https://classicdb.ch/?item=8412") + "_").append("\n");
+        builder.append("_" + String.format(Constants.LINK, "R.O.I.D.S.", "https://classicdb.ch/?item=8410") + "_").append("\n");
+        builder.append("_" + String.format(Constants.LINK, "Restorative Potion (Shazzrah, Chromaggus)", "https://classicdb.ch/?item=9030") + "_")
+                .append("\n");
+        builder.append("_" + String.format(Constants.LINK, "Major Healing Potion (Firemaw)", "https://classicdb.ch/?item=13446") + "_");
         return new MessageEmbed.Field("Melee Consumables", builder.toString(), false);
     }
 
@@ -183,7 +191,7 @@ public class ConsumablesCmd extends Command {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format(Constants.LINK, "Mighty Rage Potion", "https://classicdb.ch/?item=13442")).append("\n");
         builder.append(String.format(Constants.LINK, "Blessed Sunfruit", "https://classicdb.ch/?item=13810")).append("\n");
-        builder.append("_" + String.format(Constants.LINK, "Elemental Sharpening Stone", "https://classicdb.ch/?item=18262") + "_");
+        builder.append(String.format(Constants.LINK, "Elemental Sharpening Stone", "https://classicdb.ch/?item=18262"));
         return new MessageEmbed.Field("Warrior", builder.toString(), true);
     }
 

@@ -87,19 +87,17 @@ public class RulesCmd extends Command {
                 "Just like rewards, there are also situations where EP may be taken away from a player, or additional GP added. These situations include:\n" +
                 "- Consistent bad performance.\n" +
                 "- Consistently not using consumables, even after an officer has warned the player.\n" +
+                "- Long absence without a heads up to one of the officers.\n" +
                 "- Consistently wiping the raid or failing on a mechanic.\n", false);
 
         embed.addField("Raids",
-                "Raid sign-ups are available in the Discord channel for the given day. If you do not sign up for the raid **we cannot guarantee you a spot**, as we might've already found a pug to replace you for that raid.\n\n" +
-                        "If you consistently don't show up to raids and don't sign absent, or sign up and don't show up, you'll be given a 50 GP penalty.\n\n" +
+                "Raid sign-ups are available in the Discord channel for the given day. If you do not sign up for the raid we cannot guarantee you a spot. **Raid signups close 24 hours before the raid, after which the roster will be posted.**\n\n" +
                         "If as a raider your performance is below what we expect from you, or consistently lower than other players of your class, you *may* be demoted back to trial until your performance has increased.\n\n" +
                         "We expect all raiders to come prepared with the relevant consumables for their class along with enchanted gear.\n\n" +
                         "Our current raid times are\n" +
-//                        "```" +
                         "Wednesday 20:00-23:00 ST (invites 19:30)\n" +
                         "Sunday 19:00-22:00 ST (invites 18:30)\n" +
                         "Monday 20:00-22:00 ST (during progress, invites 19:30)",
-//                        "```",
                 false);
 
         embed.addField("Required addons",
@@ -116,7 +114,7 @@ public class RulesCmd extends Command {
                 false);
 
         embed.addField("Trials",
-                "Trials will last for 2 main raid clears and 3 Onyxia's. During this time, the trial is expected to bring relevant consumables for every boss. A list of this consumables can be found in the " +
+                "Trials will last for 2 full resets (2 BWL, 2 MC, 3 Ony). During this time, the trial is expected to bring relevant consumables for every boss. A list of this consumables can be found in the " +
                         String.format(Constants.MENTION_CHANNEL, "649302512394043392") +
                         " channel. If a trial does not use consumables, they will be given a GP penalty based on how many bosses they have not used consumables on." +
                         " During the trial period you're expected to attend every raid, unless you've informed an officer about your absence. " +
@@ -126,10 +124,16 @@ public class RulesCmd extends Command {
 
         embed.addField("Core Raiders",
                 "Core Raider is the rank above regular raider. People with this rank will be _higher_ on the priority list for the items marked as LC. " +
-                        "The requirements to get promoted to core raider are different for every role and class. For specifics, ask an officer. The general requirements can be found below.\n\n" +
+                        "The requirements to get promoted to core raider are different for every role and class. " +
+                        "For example, healers are expected to have Corehound Belt/Hide of the Wild, while warriors are expected to have Lionheart and Edgemasters if they're non-human. The general requirements can be found below.\n\n" +
                         "- Consumables for every fight\n" +
                         "- Consistently joining raids\n" +
                         "- Competitive performance for your item level",
+                false);
+
+        embed.addField("Inactivity",
+                "When coming back from a long inactive period, you will be subject to a 1 week trial period no matter what previous rank you held. Exceptions are made for absence the officers are aware of, like holidays etc.\n\n" +
+                        "You also may or may not be subject to a penalty in the form of EP or GP, whatever the officers think is fitting.",
                 false);
 
         embed.addField("Guild Bank",
@@ -144,11 +148,11 @@ public class RulesCmd extends Command {
         embed.addField("",
                 "**Any updates to these rules will be announced in the " + String.format(Constants.MENTION_CHANNEL, "631952246657122306") +
                         " channel.**\n\n" +
-                        "**Missing trial/raider rank? Use the `" + App.client.getPrefix() + "apply [rank]` command to request it.**\n\n" +
+                        "**Missing trial/raider rank? Use the `" + App.client.getPrefix() + "apply [rank]` (without brackets) command to request it.**\n\n" +
                         "**To join the raid voice channel, and to sign up for the raids, you must agree with the rules. To do so, react with the ✅ emoji.**",
                 false);
 
-        embed.setFooter("Last updated on 14-1-2020");
+        embed.setFooter("Last updated on 20-3-2020");
 
         embed.setThumbnail("https://discordemoji.com/assets/emoji/4882_gotem.png");
         return embed.build();
