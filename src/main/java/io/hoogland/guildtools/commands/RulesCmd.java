@@ -81,14 +81,16 @@ public class RulesCmd extends Command {
 //        embed.addField("", "", false);
 
         embed.addField("Extra rewards & punishments", "There are multiple ways to get extra EP rewards besides killing bosses.\n\n" +
-                "- For every minute the raid is cleared faster than the previous record, everyone part of that raid will receive 1 EP.\n" +
-                "- Participating in guild events will receive EP based on what kind of event it is. Got an idea for an event? Message an officer about it." +
-                "- Occasionally extra EP may be given out for extraordinary performance.\n\n" +
-                "Just like rewards, there are also situations where EP may be taken away from a player, or additional GP added. These situations include:\n" +
-                "- Consistent bad performance.\n" +
-                "- Consistently not using consumables, even after an officer has warned the player.\n" +
-                "- Long absence without a heads up to one of the officers.\n" +
-                "- Consistently wiping the raid or failing on a mechanic.\n", false);
+                        "- For every minute the raid is cleared faster than the previous record, everyone part of that raid will receive 1 EP.\n" +
+                        "- Participating in guild events will receive EP based on what kind of event it is. Got an idea for an event? Message an officer about it." +
+                        "- Occasionally extra EP may be given out for extraordinary performance.\n\n" +
+                        "Just like rewards, there are also situations where EP may be taken away from a player, or additional GP added. These situations include:\n" +
+                        "- Not flying with the raid when we start (-attendance EP)\n" +
+                        "- Consistent bad performance.\n" +
+                        "- Consistently not using consumables, even after an officer has warned the player.\n" +
+                        "- Long absence without a heads up to one of the officers.\n" +
+                        "- Consistently wiping the raid or failing on a mechanic.",
+                false);
 
         embed.addField("Raids",
                 "Raid sign-ups are available in the Discord channel for the given day. If you do not sign up for the raid we cannot guarantee you a spot. **Raid signups close 24 hours before the raid, after which the roster will be posted.**\n\n" +
@@ -148,7 +150,8 @@ public class RulesCmd extends Command {
         embed.addField("",
                 "**Any updates to these rules will be announced in the " + String.format(Constants.MENTION_CHANNEL, "631952246657122306") +
                         " channel.**\n\n" +
-                        "**Missing trial/raider rank? Use the `" + App.client.getPrefix() + "apply [rank]` (without brackets) command to request it.**\n\n" +
+                        "**Missing trial/raider rank? Use the `" + App.client.getPrefix() +
+                        "apply [rank]` (without brackets) command to request it.**\n\n" +
                         "**To join the raid voice channel, and to sign up for the raids, you must agree with the rules. To do so, react with the ✅ emoji.**",
                 false);
 
