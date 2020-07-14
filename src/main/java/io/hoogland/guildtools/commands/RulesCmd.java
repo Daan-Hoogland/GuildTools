@@ -105,6 +105,8 @@ public class RulesCmd extends Command {
                     ":small_orange_diamond: " + String.format(Constants.LINK, "HealComm", "https://www.wowace.com/projects/libhealcomm-4-0") +
                     " or any addon that includes HealComm (Healers)\n" +
                     ":small_orange_diamond: " + String.format(Constants.LINK, "Decursive", "https://www.curseforge.com/wow/addons/decursive") +
+                    " (Healers, useful)\n" +
+                    ":small_orange_diamond: " + String.format(Constants.LINK, "Showmemyheals", "https://www.curseforge.com/wow/addons/showmemyheal") +
                     " (Healers, useful)\n"
             );
             addonEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_misc_wrench_01.jpg");
