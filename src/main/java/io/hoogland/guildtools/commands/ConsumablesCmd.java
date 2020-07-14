@@ -140,7 +140,9 @@ public class ConsumablesCmd extends Command {
         builder.append(":small_orange_diamond: ");
         builder.append(String.format(Constants.LINK, "Greater Nature Protection Potion", "https://classicdb.ch/?item=13458")).append(" *(AQ40)*\n");
         builder.append(":small_orange_diamond: ");
-        builder.append(String.format(Constants.LINK, "Hourglass Sand", "https://classicdb.ch/?item=19183")).append(" *(BWL)*");
+        builder.append(String.format(Constants.LINK, "Hourglass Sand", "https://classicdb.ch/?item=19183")).append(" *(BWL)*\n");
+        builder.append(":small_orange_diamond: ");
+        builder.append(String.format(Constants.LINK, "Limited Invulnerability Potion", "https://classicdb.ch/?item=3387")).append(" *(Fire Mage/Rogue/Warrior DPS)*");
         return new MessageEmbed.Field("Generic Consumables", builder.toString(), false);
     }
 
