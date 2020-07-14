@@ -277,6 +277,10 @@ public class ConsumablesCmd extends Command {
         builder.append(String.format(Constants.LINK, "Mighty Rage Potion (Warrior)", "https://classicdb.ch/?item=13442")).append("\n");
         builder.append(":small_orange_diamond: ");
         builder.append(String.format(Constants.LINK, "Greater Stoneshield Potion", "https://classicdb.ch/?item=13455"));
+        builder.append(":small_orange_diamond: ");
+        builder.append(String.format(Constants.LINK, "Elixir of Fortitude", "https://classicdb.ch/?item=3825"));
+        builder.append(":small_orange_diamond: ");
+        builder.append(String.format(Constants.LINK, "Elixir of Superior Defense", "https://classicdb.ch/?item=13445"));
         return new MessageEmbed.Field("Tanks", builder.toString(), true);
     }
 
