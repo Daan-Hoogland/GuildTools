@@ -17,7 +17,7 @@ public class ReactionRoleMessage {
     private Long guildId, messageId, channelId;
     private String directLink;
 
-    @OneToMany(mappedBy = "reactionRoleMessage", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "reactionRoleMessage", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ReactionRole> roles;
 
     public ReactionRoleMessage() {
