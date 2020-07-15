@@ -38,9 +38,12 @@ zones:
     image: https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/zones/zone-1002-small.jpg
   1003:
     name: Zul Gurub
+    image: https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/zones/zone-1003-small.jpg
   1004:
-    name: AQ20
+    name: Ruins of Ahn'Qiraj
+    image: https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/zones/zone-1004-small.jpg
   1005:
-    name: AQ40
+    name: Temple of Ahn'Qiraj
+    image: https://dmszsuqyoe6y6.cloudfront.net/img/warcraft/zones/zone-1004-small.jpg
   1006:
     name: Naxxramas

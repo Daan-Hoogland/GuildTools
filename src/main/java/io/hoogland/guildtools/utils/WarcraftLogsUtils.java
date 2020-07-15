@@ -43,7 +43,15 @@ public class WarcraftLogsUtils {
         if (zone != 1002) {
             emojiList.add(WarcraftLogsConstants.BLACKWING_LAIR_EMOJI);
         }
-        //todo add more raids
+        if (zone != 1003) {
+            emojiList.add(WarcraftLogsConstants.ZUL_GURUB_EMOJI);
+        }
+        if (zone != 1004) {
+            emojiList.add(WarcraftLogsConstants.AHN_QIRAJ_20_EMOJI);
+        }
+        if (zone != 1005) {
+            emojiList.add(WarcraftLogsConstants.AHN_QIRAJ_40_EMOJI);
+        }
         return emojiList;
     }
 
@@ -56,11 +64,11 @@ public class WarcraftLogsUtils {
             case 1002:
                 return WarcraftLogsConstants.BLACKWING_LAIR_EMOJI;
             case 1003:
-                return WarcraftLogsConstants.MOLTEN_CORE_EMOJI;
+                return WarcraftLogsConstants.ZUL_GURUB_EMOJI;
             case 1004:
-                return WarcraftLogsConstants.MOLTEN_CORE_EMOJI;
+                return WarcraftLogsConstants.AHN_QIRAJ_20_EMOJI;
             case 1005:
-                return WarcraftLogsConstants.MOLTEN_CORE_EMOJI;
+                return WarcraftLogsConstants.AHN_QIRAJ_40_EMOJI;
             case 1006:
                 return WarcraftLogsConstants.MOLTEN_CORE_EMOJI;
             default:

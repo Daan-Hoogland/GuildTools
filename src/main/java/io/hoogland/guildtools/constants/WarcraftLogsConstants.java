@@ -67,6 +67,7 @@ public class WarcraftLogsConstants {
                 add("Nefarian");
             }});
 
+    public static final String ZUL_GURUB_EMOJI = "<:zg:732770048149815418>";
     public static final List<String> ZUL_GURUB = Collections.unmodifiableList(
             new ArrayList<String>() {{
                 add("High Priestess Jeklik");
@@ -84,6 +85,7 @@ public class WarcraftLogsConstants {
                 add("Hakkar");
             }});
 
+    public static final String AHN_QIRAJ_20_EMOJI = "<:aq20:732769544191606856>";
     public static final List<String> AHN_QIRAJ_20 = Collections.unmodifiableList(
             new ArrayList<String>() {{
                 add("Kurinnaxx");
@@ -94,6 +96,7 @@ public class WarcraftLogsConstants {
                 add("Ossirian the Unscarred");
             }});
 
+    public static final String AHN_QIRAJ_40_EMOJI = "<:aq40:732769553196777523>";
     public static final List<String> AHN_QIRAJ = Collections.unmodifiableList(
             new ArrayList<String>() {{
                 add("The Prophet Skeram");

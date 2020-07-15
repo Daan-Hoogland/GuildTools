@@ -35,7 +35,13 @@ public class PLogsListener extends ListenerAdapter {
             if (event.getReactionEmote().isEmote() && (EmojiUtils.emoteToDiscordEmoji(event.getReactionEmote().getEmote()).equalsIgnoreCase(
                     WarcraftLogsConstants.ONYXIA_EMOJI) || EmojiUtils.emoteToDiscordEmoji(event.getReactionEmote().getEmote()).equalsIgnoreCase(
                     WarcraftLogsConstants.MOLTEN_CORE_EMOJI) || EmojiUtils.emoteToDiscordEmoji(event.getReactionEmote().getEmote()).equalsIgnoreCase(
-                    WarcraftLogsConstants.BLACKWING_LAIR_EMOJI))) {
+                    WarcraftLogsConstants.BLACKWING_LAIR_EMOJI)) ||
+                    EmojiUtils.emoteToDiscordEmoji(event.getReactionEmote().getEmote()).equalsIgnoreCase(
+                            WarcraftLogsConstants.ZUL_GURUB_EMOJI) ||
+                    EmojiUtils.emoteToDiscordEmoji(event.getReactionEmote().getEmote()).equalsIgnoreCase(
+                            WarcraftLogsConstants.AHN_QIRAJ_20_EMOJI) ||
+                    EmojiUtils.emoteToDiscordEmoji(event.getReactionEmote().getEmote()).equalsIgnoreCase(
+                            WarcraftLogsConstants.AHN_QIRAJ_40_EMOJI)) {
                 event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(
                         message -> {
                             if (message.getAuthor().getIdLong() == App.jda.getSelfUser().getIdLong()) {
