@@ -76,7 +76,7 @@ public class LogsCmd extends Command {
                                 StringBuilder zoneNames = new StringBuilder();
 
                                 if (reports.length > 0) {
-                                    for (WarcraftLogsReport report : (reports.length > 4 ? Arrays.copyOfRange(reports, 0, 4) : reports)) {
+                                    for (WarcraftLogsReport report : (reports.length > 6 ? Arrays.copyOfRange(reports, 0, 6) : reports)) {
                                         reportNames.append(String.format(Constants.LINK, report.getTitle(), report.getUrl())).append("\n");
                                         dates.append(
                                                 LocalDateTime.ofInstant(Instant.ofEpochMilli(report.getStart()), ZoneId.systemDefault())
