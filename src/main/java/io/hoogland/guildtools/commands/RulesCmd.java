@@ -35,7 +35,7 @@ public class RulesCmd extends Command {
             ranksEmbed.setTitle("Ranks");
             ranksEmbed.setDescription(
                     "There are 3 relevant ranks to a raider. Trial, Member and Veteran.\n\n" +
-                            "**Trial**\nWhen first joining the guild you will be subject to a trial period lasting a minimum of 2 weeks (2 raid resets).\n\n" +
+                            "**Trial**\nWhen first joining the guild you will be subject to a trial period lasting a minimum of 3 weeks (3 raid resets).\n\n" +
                             "During this period of time we'll look at your performance and preparation for each raid, and how well you are able to take on various tasks. " +
                             "At the end of the trial period you'll be promoted to member or be told that your trial period is extended, and what you can improve on during the extended trial.\n\n" +
                             "If you're wondering about how you're doing at any point during your trial, message any of the officers or class leaders.\n\n" +
@@ -49,13 +49,29 @@ public class RulesCmd extends Command {
             EmbedBuilder lootEmbed = new EmbedBuilder();
             lootEmbed.setTitle("Loot");
             lootEmbed.setDescription(
-                    "Loot is distributed based on the decision of a loot council. This loot council consists of all the class leaders, officers and guild master together.\n\n" +
-                            "These decisions are made based on class, role, your performance, current piece in that gear slot and overall effort you put into preparation of raids. " +
-                            "Raid preparation includes consumables, protection potions and world buffs. World buffs are tracked by the officers in a spreadsheet available <TODO HERE>.\n\n" +
+                    "Loot is distributed based on the decision of a loot council. This loot council consists of all the class leaders, officers and guild master together. " +
+                            "While the individual officers can't possibly know all the ins and outs of all classes, the class leaders will provide sufficient info for them to make an informed decision.\n\n" +
+
+                            "These decisions are made based on class, role, your performance, current piece in that gear slot and the time spent obtaining said item, and the overall effort you put into preparation of raids.\n\n" +
+                            "If the user is still missing pre-raid BiS gear they **will not** be considered for an item. " +
+                            "Spending a lot of time getting PvP gear will **not** lower your prio on any item, since it increases the amount of effort you put into improving your character.\n\n" +
+                            "Getting an item will not necessarily lower your priority on other items, depending on how powerful the received item is. " +
+                            "Raid preparation includes consumables, protection potions and world buffs. World buffs are tracked by the officers in a spreadsheet which will be available to everyone once its finished.\n\n" +
+
+                            "Attendance plays a big factor in loot decisions as well. People not showing up to farm raids where others might still need gear that benefits the raid as a whole will be given a lower priority on loot in regards to the attendance factor. " +
+                            "Old raids are boring, but cleared faster when everyone helps out properly.\n\n" +
+
                             "Besides the factors mentioned above, there is also a general class priority. This class priority might be ignored by the council if they feel like someone else will benefit from it more.\n\n" +
-                            "**Offspec/PvP**\nOffspec items are also loot counciled. This is based on if the person actually plays the offspec in raids. PvP items are given to people that actively PvP outside of raids or are planning to rank.\n\n" +
-                            "**Issues**\nAny problems regarding loot can be brought up to any council member in private. Any suggestions in regards to class priority can be posted in "
-                            + String.format(Constants.MENTION_CHANNEL, "665926785086521344") + " or " + String.format(Constants.MENTION_CHANNEL, "669648077681852418") + ", or to any council member in private.");
+                            String.format(Constants.LINK, "**The class priority for loot can be found by clicking this link.**",
+                                    "https://docs.google.com/spreadsheets/d/1EFN6py9TkeaKVMr8wTERduMnOb93enmsx8nLGxxcyCo/edit?usp=sharing") + "\n\n");
+
+            lootEmbed.addField("Offspec/PvP",
+                    "Offspec items are also loot counciled. This is based on if the person actually plays the offspec in raids. PvP items are given to people that actively PvP outside of raids or are planning to rank.",
+                    false);
+            lootEmbed.addField("Issues",
+                    "Any problems regarding loot can be brought up to any council member in private. Any suggestions in regards to class priority can be posted in " +
+                            String.format(Constants.MENTION_CHANNEL, "665926785086521344") + " or " +
+                            String.format(Constants.MENTION_CHANNEL, "669648077681852418") + ", or to any council member in private.", false);
             lootEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_misc_ornatebox.jpg");
             lootEmbed.setColor(Color.decode("#a335ee"));
 
@@ -67,10 +83,11 @@ public class RulesCmd extends Command {
             raidEmbed.setDescription(
                     "Raid sign-ups are available in the Discord channel for the given day. If you do not sign up for the raid we cannot guarantee you a spot. **Raid signups close 24 hours before the raid, after which the roster will be posted.**\n\n" +
                             "If as a member your performance is below what we expect from you, or consistently lower than other players of your class, you *may* be demoted back to trial until your performance has increased.\n\n" +
-                            "We expect all members to come prepared with the relevant consumables for their class along with enchanted gear.\n\n" +
+                            "We expect all members to come prepared with the relevant consumables for their class along with enchanted gear and hold an acceptable attendance level.\n\n" +
                             "Our current raid times are\n" +
                             ":small_orange_diamond: Wednesday 20:00-23:00 ST\n" +
                             ":small_orange_diamond: Sunday 20:00-23:00 ST\n" +
+                            "_Additional raids may be organized in the events of a speed run or new raid release._\n\n" +
                             "Invites will start 30 minutes early, at 19:30. If we're doing MC/BWL we will fly at 19:45 from **Stormwind** to **Morgans Vigil, Burning Steppes**.\nAQ flight information will be added once we know how we'll get to AQ.\n\n" +
                             "Additionally, if you've been inactive for an extended period of time (1+ month) and wish to partake in raids again, you will be subject to a new trial period lasting 2 weeks.");
             raidEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dragon_01.jpg");
@@ -78,21 +95,12 @@ public class RulesCmd extends Command {
 
             event.getChannel().sendMessage(raidEmbed.build()).complete();
 
-//            EmbedBuilder rankEmbed = new EmbedBuilder();
-//            rankEmbed.setTitle("Ranks");
-//            rankEmbed.setDescription(
-//                    "There are 3 relevant ranks for a raider. These ranks are Trial, Member and Veteran. Trial is described above");
-//            rankEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_misc_tabardpvp_03.jpg");
-//            rankEmbed.setColor(Color.decode("#00ADEF"));
-
-//            event.getChannel().sendMessage(rankEmbed.build()).complete();
-
             EmbedBuilder addonEmbed = new EmbedBuilder();
             addonEmbed.setTitle("Required addons");
             addonEmbed.setDescription("Below is a list of all the addons we require to raid. DBM and Details should be self explanatory. " +
                     "RCLootCouncil is used for loot, and without it you will **not** be eligible for loot off the bosses.\n\n" +
                     ":small_orange_diamond: " +
-                    String.format(Constants.LINK, "RCLootCouncil", "https://www.curseforge.com/wow/addons/rclootcouncil") + "\n" +
+                    String.format(Constants.LINK, "RCLootCouncil", "https://www.curseforge.com/wow/addons/rclootcouncil-classic") + "\n" +
                     ":small_orange_diamond: " +
                     String.format(Constants.LINK, "Details", "https://www.curseforge.com/wow/addons/details-damage-meter-classic-wow") +
                     "\n" +
@@ -119,6 +127,7 @@ public class RulesCmd extends Command {
             gbEmbed.setTitle("Guild Bank");
             gbEmbed.setDescription("All BoE, materials and recipes will be put into the guild bank. This includes both rare and epics. " +
                     "The rare BoE drops are purchasable for a significant discount compared to the auction house depending on the item. " +
+                    "If the items drop from a raid then only the people that actively participate in said raid are eligible to purchase the item.\n\n" +
                     "Uncommon items will be disenchanted. Enchanting mats are also available from the guild bank with a discount.\n\n" +
                     "The gold in the guild bank will be used to purchase any recipes we're missing as a guild, providing consumables to guildies " +
                     "at a discounted rate if the prices soar too high on the AH, or reimbursements for flasks or other specific consumables during a speedrun *(only when indicated by an officer)*.\n\n" +
@@ -126,7 +135,7 @@ public class RulesCmd extends Command {
                     "Bids are placed with 5 gold increments to speed up the process.");
             gbEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_box_02.jpg");
             gbEmbed.setColor(Color.decode("#fcba03"));
-            gbEmbed.setFooter("Rules last updated on 10-7-2020");
+            gbEmbed.setFooter("Rules last updated on 24-7-2020");
 
 
             event.getChannel().sendMessage(gbEmbed.build()).queue(
