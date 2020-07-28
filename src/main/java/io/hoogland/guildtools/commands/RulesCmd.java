@@ -2,7 +2,6 @@ package io.hoogland.guildtools.commands;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import io.hoogland.guildtools.App;
 import io.hoogland.guildtools.constants.Constants;
 import io.hoogland.guildtools.models.domain.ReactionRole;
 import io.hoogland.guildtools.models.domain.ReactionRoleMessage;
@@ -10,7 +9,6 @@ import io.hoogland.guildtools.models.repositories.ReactionRoleMessageRepository;
 import io.hoogland.guildtools.models.repositories.ReactionRoleRepository;
 import io.hoogland.guildtools.utils.BeanUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,10 +35,11 @@ public class RulesCmd extends Command {
                     "There are 3 relevant ranks to a raider. Trial, Member and Veteran.\n\n" +
                             "**Trial**\nWhen first joining the guild you will be subject to a trial period lasting a minimum of 3 weeks (3 raid resets).\n\n" +
                             "During this period of time we'll look at your performance and preparation for each raid, and how well you are able to take on various tasks. " +
-                            "At the end of the trial period you'll be promoted to member or be told that your trial period is extended, and what you can improve on during the extended trial.\n\n" +
+                            "During this period you have a lower priority on loot vs existing members, although this will change once you get to your last week of the trial." +
+                            "At the end of the trial period you'll be promoted to member, be demoted to social, or be told that your trial period is extended, and what you can improve on during the extended trial.\n\n" +
                             "If you're wondering about how you're doing at any point during your trial, message any of the officers or class leaders.\n\n" +
                             "**Member & Veteran**\nMember rank is the rank you'll be promoted to after you pass a trial. This will give you equal priority on loot to everyone else.\n\n" +
-                            "Veteran rank is for the people that have been in the guild for an extended period of time (2+ months). This rank offers **no benefit** over being a Member.");
+                            "Veteran rank is for the people that have been in the guild for an extended period of time (roughly 2 months). This rank offers **no benefit** over being a Member.");
             ranksEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_misc_tabardpvp_03.jpg");
             ranksEmbed.setColor(Color.decode("#00ADEF"));
 
@@ -54,19 +53,24 @@ public class RulesCmd extends Command {
 
                             "These decisions are made based on class, role, your performance, current piece in that gear slot and the time spent obtaining said item, and the overall effort you put into preparation of raids.\n\n" +
                             "If the user is still missing pre-raid BiS gear they **will not** be considered for an item. " +
-                            "Spending a lot of time getting PvP gear will **not** lower your prio on any item, since it increases the amount of effort you put into improving your character.\n\n" +
+                            "Spending a lot of time getting upgrades outside of raids (PvP, Rep etc) will **not** lower your prio on any item, since it increases the amount of effort you put into improving your character.\n\n" +
                             "Getting an item will not necessarily lower your priority on other items, depending on how powerful the received item is. " +
                             "Raid preparation includes consumables, protection potions and world buffs. World buffs are tracked by the officers in a spreadsheet which will be available to everyone once its finished.\n\n" +
 
                             "Attendance plays a big factor in loot decisions as well. People not showing up to farm raids where others might still need gear that benefits the raid as a whole will be given a lower priority on loot in regards to the attendance factor. " +
                             "Old raids are boring, but cleared faster when everyone helps out properly.\n\n" +
 
+                            "The loot priority (rank wise) is as follows:\n```Veteran/Member > Veteran/Member offspec = Trial >= Alt```\n" +
+
                             "Besides the factors mentioned above, there is also a general class priority. This class priority might be ignored by the council if they feel like someone else will benefit from it more.\n\n" +
                             String.format(Constants.LINK, "**The class priority for loot can be found by clicking this link.**",
-                                    "https://docs.google.com/spreadsheets/d/1EFN6py9TkeaKVMr8wTERduMnOb93enmsx8nLGxxcyCo/edit?usp=sharing") + "\n\n");
+                                    "https://docs.google.com/spreadsheets/d/1EFN6py9TkeaKVMr8wTERduMnOb93enmsx8nLGxxcyCo") + "\n\n");
 
             lootEmbed.addField("Offspec/PvP",
                     "Offspec items are also loot counciled. This is based on if the person actually plays the offspec in raids. PvP items are given to people that actively PvP outside of raids or are planning to rank.",
+                    false);
+            lootEmbed.addField("Recipes/Formulas",
+                    "Recipes and formulas will be given to the designated guild crafter/enchanter for that specific profession. Any drops following the first drop are rolled between everyone with the profession.",
                     false);
             lootEmbed.addField("Issues",
                     "Any problems regarding loot can be brought up to any council member in private. Any suggestions in regards to class priority can be posted in " +
@@ -105,6 +109,8 @@ public class RulesCmd extends Command {
                     String.format(Constants.LINK, "Details", "https://www.curseforge.com/wow/addons/details-damage-meter-classic-wow") +
                     "\n" +
                     ":small_orange_diamond: " + String.format(Constants.LINK, "DBM", "https://www.curseforge.com/wow/addons/deadly-boss-mods") +
+                    "\n" +
+                    ":small_orange_diamond: " + String.format(Constants.LINK, "Salad_Cthun", "https://www.curseforge.com/wow/addons/salad_cthun") +
                     "\n" +
                     ":small_orange_diamond: " +
                     String.format(Constants.LINK, "ClassicCastbars", "https://www.curseforge.com/wow/addons/classiccastbars") + "\n" +
