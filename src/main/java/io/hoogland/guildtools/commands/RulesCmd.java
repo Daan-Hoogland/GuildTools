@@ -138,10 +138,11 @@ public class RulesCmd extends Command {
                     "The gold in the guild bank will be used to purchase any recipes we're missing as a guild, providing consumables to guildies " +
                     "at a discounted rate if the prices soar too high on the AH, or reimbursements for flasks or other specific consumables during a speedrun *(only when indicated by an officer)*.\n\n" +
                     "In addition to all of this, there are 2 items that are gold bid by default. These items are the Onyxia bag and the bag from the panther boss in ZG. " +
-                    "Bids are placed with 5 gold increments to speed up the process.");
+                    "Bids are placed with 5 gold increments to speed up the process.\n\n" +
+                    String.format(Constants.LINK, "**The guild bank contents can be found here.**", "https://classicguildbank.com/#/guild/readonly/UMwgBTbSLkaouGQyWuEcmA"));
             gbEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_box_02.jpg");
             gbEmbed.setColor(Color.decode("#fcba03"));
-            gbEmbed.setFooter("Rules last updated on 24-7-2020");
+            gbEmbed.setFooter("Rules last updated on 29-7-2020");
 
 
             event.getChannel().sendMessage(gbEmbed.build()).queue(
