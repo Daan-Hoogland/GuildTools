@@ -19,8 +19,10 @@ import io.hoogland.guildtools.commands.loot.dkp.DKPCmd;
 import io.hoogland.guildtools.commands.loot.epgp.EPGPCmd;
 import io.hoogland.guildtools.commands.rolereaction.RoleReactionCmd;
 import io.hoogland.guildtools.commands.rolereaction.RoleReactionListener;
+import io.hoogland.guildtools.commands.settings.LootIgnoreRankCmd;
 import io.hoogland.guildtools.commands.settings.SettingsCmd;
 import io.hoogland.guildtools.commands.settings.SetupCmd;
+import io.hoogland.guildtools.listeners.WebhookListener;
 import io.hoogland.guildtools.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
@@ -71,7 +73,7 @@ public class App implements CommandLineRunner {
 
         client = builder.build();
 
-        jda = new JDABuilder(discordToken)
+        jda = JDABuilder.createDefault(discordToken)
                 .addEventListeners(client)
                 .addEventListeners(new RoleReactionListener())
                 .addEventListeners(new LootAllReactionListener())
@@ -79,6 +81,7 @@ public class App implements CommandLineRunner {
                 .addEventListeners(new PLogsListener(warcraftlogsToken))
                 .addEventListeners(new ApplyListener())
                 .addEventListeners(new DeleteMessageListener())
+                .addEventListeners(new WebhookListener(warcraftlogsToken))
                 .addEventListeners(waiter)
                 .build();
     }
