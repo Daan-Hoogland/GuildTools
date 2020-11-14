@@ -66,9 +66,6 @@ public class RulesCmd extends Command {
                             String.format(Constants.LINK, "**The class priority for loot can be found by clicking this link.**",
                                     "https://docs.google.com/spreadsheets/d/1EFN6py9TkeaKVMr8wTERduMnOb93enmsx8nLGxxcyCo") + "\n\n");
 
-            lootEmbed.addField("Offspec/PvP",
-                    "Offspec items are also loot counciled. This is based on if the person actually plays the offspec in raids. PvP items are given to people that actively PvP outside of raids or are planning to rank.",
-                    false);
             lootEmbed.addField("Recipes/Formulas",
                     "Recipes and formulas will be given to the designated guild crafter/enchanter for that specific profession. Any drops following the first drop are rolled between everyone with the profession.",
                     false);
@@ -81,13 +78,13 @@ public class RulesCmd extends Command {
 
             event.getChannel().sendMessage(lootEmbed.build()).complete();
 
-
             EmbedBuilder raidEmbed = new EmbedBuilder();
             raidEmbed.setTitle("Raids");
             raidEmbed.setDescription(
                     "Raid sign-ups are available in the Discord channel for the given day. If you do not sign up for the raid we cannot guarantee you a spot. **Raid signups close 24 hours before the raid, after which the roster will be posted.**\n\n" +
                             "If as a member your performance is below what we expect from you, or consistently lower than other players of your class, you *may* be demoted back to trial until your performance has increased.\n\n" +
-                            "We expect all members to come prepared with the relevant consumables for their class along with enchanted gear and hold an acceptable attendance level.\n\n" +
+                            "We expect all members to come prepared with the relevant consumables for their class along with enchanted gear and hold an acceptable attendance level. " +
+                            "Alts are welcome in raids specified by the raid leader and have to fit in with the composition. Alts will also be held to the same standard as raiders, which means consumes and world buffs. Alts can be declined based on these expectations not being met.\n\n" +
                             "Our current raid times are\n" +
                             ":small_orange_diamond: Wednesday 20:00-23:00 ST\n" +
                             ":small_orange_diamond: Sunday 20:00-23:00 ST\n" +
