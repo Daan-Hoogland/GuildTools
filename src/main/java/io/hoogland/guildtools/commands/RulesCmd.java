@@ -51,7 +51,7 @@ public class RulesCmd extends Command {
                     "Loot is distributed based on the decision of a loot council. This loot council consists of all the class leaders, officers and guild master together. " +
                             "While the individual officers can't possibly know all the ins and outs of all classes, the class leaders will provide sufficient info for them to make an informed decision.\n\n" +
 
-                            "These decisions are made based on class, role, your performance, current piece in that gear slot and the time spent obtaining said item, and the overall effort you put into preparation of raids.\n\n" +
+                            "These decisions are made based on class, role, attendance, world buffs and general performance in raids (not slowing the raid down, dying on purpose etc.).\n\n" +
                             "If the user is still missing pre-raid BiS gear they **will not** be considered for an item. " +
                             "Spending a lot of time getting upgrades outside of raids (PvP, Rep etc) will **not** lower your prio on any item, since it increases the amount of effort you put into improving your character.\n\n" +
                             "Getting an item will not necessarily lower your priority on other items, depending on how powerful the received item is. " +
@@ -59,8 +59,9 @@ public class RulesCmd extends Command {
 
                             "Attendance plays a big factor in loot decisions as well. People not showing up to farm raids where others might still need gear that benefits the raid as a whole will be given a lower priority on loot in regards to the attendance factor. " +
                             "Old raids are boring, but cleared faster when everyone helps out properly.\n\n" +
+                            "Offspec and PvP items are rolled off, unless there is a case to be made for a specific person to receive said item. Such as someone that often offtanks on trash receiving a key tank item before others.\n\n" +
 
-                            "The loot priority (rank wise) is as follows:\n```Veteran/Member > Veteran/Member offspec = Trial >= Alt```\n" +
+                            "The loot priority (rank wise) is as follows:\n```Veteran/Member > Trial > Veteran/Member offspec = Alt```\n" +
 
                             "Besides the factors mentioned above, there is also a general class priority. This class priority might be ignored by the council if they feel like someone else will benefit from it more.\n\n" +
                             String.format(Constants.LINK, "**The class priority for loot can be found by clicking this link.**",
@@ -139,7 +140,7 @@ public class RulesCmd extends Command {
                     String.format(Constants.LINK, "**The guild bank contents can be found here.**", "https://classicguildbank.com/#/guild/readonly/UMwgBTbSLkaouGQyWuEcmA"));
             gbEmbed.setThumbnail("https://wow.zamimg.com/images/wow/icons/large/inv_box_02.jpg");
             gbEmbed.setColor(Color.decode("#fcba03"));
-            gbEmbed.setFooter("Rules last updated on 29-7-2020");
+            gbEmbed.setFooter("Rules last updated on 14-11-2020");
 
 
             event.getChannel().sendMessage(gbEmbed.build()).queue(
