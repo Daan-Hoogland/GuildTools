@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    open-in-view: false
+  banner:
+    location: banner.txt
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: localhost:5432/guild_tools
+    username: postgres
+    password:
+    hbm2ddl: update
+    showsql: false
+logging:
+  level:
+    root: warn
+    org:
+      springframework:
+        boot: warn
+      hibernate: warn
+    io:
+      hoogland:
+        guildtools: trace
+prefix:
+tokens:
+  discord:
+  owner:
+  warcraftlogs:
